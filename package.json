@@ -5,10 +5,13 @@
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "@tailwindcss/postcss": "^4.0.11",
+    "@tailwindcss/postcss7-compat": "^2.2.17",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "devtools": "^8.42.0",
     "heroicons": "^2.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -42,8 +45,8 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.3",
+    "autoprefixer": "^9.8.8",
+    "postcss": "^7.0.39",
     "tailwindcss": "^4.0.10"
   }
 }
