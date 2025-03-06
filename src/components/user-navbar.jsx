@@ -11,7 +11,7 @@ const user = {
 const navigation = [
   { name: 'CreateOrder', href:'/createorder', current: true },
   { name: 'OrderHistory', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false },
+  { name: 'OrderStatus', href: '#', current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
