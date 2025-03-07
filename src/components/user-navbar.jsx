@@ -10,9 +10,11 @@ const user = {
     require("./assets/happy.png"),
 }
 const navigation = [
-  { name: 'CreateOrder', href:'/createorder', current: false },
-  { name: 'OrderHistory', href: '#', current: false },
-  { name: 'OrderStatus', href: '#', current: false },
+  { name: 'Dashboard', to: '/dashboard', current: false },
+  { name: 'CreateOrder', to:'/createorder', current: false },
+  { name: 'OrderHistory', to: '#', current: false },
+  { name: 'OrderStatus', to: '#', current: false },
+  
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -51,8 +53,9 @@ export default function User() {
                   <div className="ml-10 flex items-baseline space-x-4">
                     {navigation.map((item) => (
                       <Link
+                        to={item.to}
                         key={item.name}
-                        href={item.href}
+                        
                         aria-current={item.current ? 'page' : undefined}
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
@@ -166,11 +169,7 @@ export default function User() {
           </DisclosurePanel>
         </Disclosure>
 
-        <header className="bg-white shadow-sm">
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-          </div>
-        </header>
+        
         <main>
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">{/* Your content */}</div>
         </main>

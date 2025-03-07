@@ -14,11 +14,15 @@ const user = {
 
 function Dashboard(){
     return(
-        <div className=" items-center bg-gray-100 p-4">
-            <User />
+        <div className=" min-h-screen bg-gray-100 ">
             
-            <h1 className="text-3xl font-bold text-gray-800">Welcome to the Procurement App</h1>
-            <p className="text-gray-600 mt-2">Manage your orders and suppliers efficiently.</p>
+            <nav className="sticky top-0  ">
+                <User />
+            </nav>
+           
+                
+            <h1 className="text-3xl font-bold text-gray-800">Welcome {user.name}</h1>
+            <p className="text-gray-600 mt-2">Manage your orders  efficiently.</p>
             <UserDetails user={user} />
         </div>
     )

@@ -18,7 +18,7 @@ function App() {
     <Router>
       <div>
         
-        <div className="p-6">
+        <div >
           <Routes>
             <Route path="/" element={isauthenticated?<Dashboard/>:<Navigate to="/signin"/>}/>
             <Route path="/signin" element={<SignIn setAuth={setisauthenticated}/>}/>
