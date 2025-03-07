@@ -1,6 +1,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars4Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import {Link} from "react-router-dom"
+import React from 'react'
 
 const user = {
   name: 'Tom Cook',
@@ -9,7 +10,7 @@ const user = {
     require("./assets/happy.png"),
 }
 const navigation = [
-  { name: 'CreateOrder', href:'/createorder', current: true },
+  { name: 'CreateOrder', href:'/createorder', current: false },
   { name: 'OrderHistory', href: '#', current: false },
   { name: 'OrderStatus', href: '#', current: false },
 ]
@@ -49,7 +50,7 @@ export default function User() {
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
                         aria-current={item.current ? 'page' : undefined}
@@ -59,7 +60,7 @@ export default function User() {
                         )}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>

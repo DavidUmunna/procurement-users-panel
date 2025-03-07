@@ -7,7 +7,13 @@ import Dashboard from "./components/dashboard"
 
 
 function App() {
+  
   const [isauthenticated, setisauthenticated]=useState(false)
+  
+  React.useEffect(() => {
+    console.log("Is Authenticated:", isauthenticated);
+  }, [isauthenticated]);
+
   return (
     <Router>
       <div>
@@ -16,7 +22,7 @@ function App() {
           <Routes>
             <Route path="/" element={isauthenticated?<Dashboard/>:<Navigate to="/signin"/>}/>
             <Route path="/signin" element={<SignIn setAuth={setisauthenticated}/>}/>
-            <Route path="/Dashboard" element={isauthenticated ? <Dashboard /> : <Navigate to="/signin" />} />
+            <Route path="/dashboard" element={isauthenticated ? <Dashboard /> : <Navigate to="/signin" />} />
             <Route path="/user"   element={isauthenticated? <User/> :<Navigate to="/signin" />} />
             <Route path="/createorder" element={isauthenticated? <CreateOrder />:<Navigate to="/signin"/>} />
           </Routes>
@@ -26,5 +32,4 @@ function App() {
   );
 }
 
-
-export default App;
+export default App

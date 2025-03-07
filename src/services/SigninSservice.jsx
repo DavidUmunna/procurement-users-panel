@@ -8,7 +8,7 @@ function SignIn() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        const response = await fetch("http://localhost:5000/signin", {
+        const response = await fetch("http://127.0.0.1:5000/api/signin", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password }),

@@ -1,27 +1,39 @@
 import { useState } from "react";
-//import axios from "axios";
-export default function Sign_in() {
+//import { validate } from "../../../procurement_api/models/users";
+//import axios from "axios";;
+import { useNavigate } from "react-router-dom";
+import  app from "../App" 
+
+
+export default function Sign_in({setAuth}) {
+        //const setAuth=app.setisauthenticated()
+        const navigate = useNavigate();
         const [username, setUsername] = useState("");
         const [password, setPassword] = useState("");
         const [error, setError] = useState("");
     
         const handleLogin = async (e) => {
             e.preventDefault();
-    
-            const response = await fetch("http://localhost:5000/api/signin", {
+           
+            const response = await fetch("http://127.0.0.1:5000/api/signin", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, password }),
             });
-    
+             
             const data = await response.json();
+            console.log(data);
             if (data.success) {
-                alert("Login Successful!");
+                setAuth(true)
+                
+                navigate("/dashboard");
+                
             } else {
                 setError(data.message);
             }
-            setUsername(" ")
-            setPassword(" ")
+            setUsername("")
+            setPassword("")
+        
         };
     return (
       <>
