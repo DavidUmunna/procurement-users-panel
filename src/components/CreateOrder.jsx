@@ -13,10 +13,10 @@ const CreateOrder = () => {
     const orderData=await createOrder({ supplier, products, orderedBy });
   
     console.log("Submitting order data:", orderData);
-    await createOrder(orderData)
+    
     setorderedBy("");
     setSupplier("Company");
-    setProducts([{ Name: "", quantity: 1,price:`₦${0}` }]);
+    setProducts([{ Name: "", quantity: 1,price:0 }]);
     alert("Order Created!");
   };
 
@@ -97,7 +97,7 @@ const CreateOrder = () => {
                 <button
                   type="button"
                   onClick={() => removeProduct(index)}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                  className="px-2 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
                 >
                   Remove
                 </button>
@@ -106,7 +106,7 @@ const CreateOrder = () => {
             <button
               type="button"
               onClick={addProduct}
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+              className="px-2  py-2 w-70 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
             >
               Add Product
             </button>
