@@ -37,7 +37,7 @@ export const updateOrderStatus = async (orderId, status) => {
 
 export const deleteOrder = async (orderId) => {
   try {
-    await axios.delete(`${API_URL}/${orderId}`);
+    await axios.delete(`${API_URL}/${orders}/${orderId}`);
   } catch (error) {
     console.error("Error deleting order:", error);
   }
