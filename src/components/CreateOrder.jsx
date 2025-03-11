@@ -41,7 +41,7 @@ const CreateOrder = () => {
               <User />
       </nav>
       <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
-       
+
         <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Create Purchase Order</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
