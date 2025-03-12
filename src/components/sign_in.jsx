@@ -1,8 +1,8 @@
 import { useState } from "react";
 //import { validate } from "../../../procurement_api/models/users";
-//import axios from "axios";;
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import  app from "../App" 
+//import  app from "../App" 
 
 
 export default function Sign_in({setAuth}) {
@@ -12,29 +12,46 @@ export default function Sign_in({setAuth}) {
         const [password, setPassword] = useState("");
         const [error, setError] = useState("");
     
+        
+
         const handleLogin = async (e) => {
             e.preventDefault();
-           
-            const response = await fetch("http://127.0.0.1:5000/api/signin", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
-            });
-             
-            const data = await response.json();
-            console.log(data);
-            if (data.success) {
-                setAuth(true)
-                
-                navigate("/dashboard");
-                
-            } else {
-                setError(data.message);
-            }
-            setUsername("")
-            setPassword("")
         
+            try {
+                const response = await axios.post("http://localhost:5000/api/signin", {
+                    username,
+                    password
+                });
+        
+                console.log(response.data);
+        
+                if (response.data.success) {
+                    setAuth(true);
+                    navigate("/dashboard");
+                } else {
+                    setError(response.data.message);
+                }
+            } catch (error) {
+                console.error("Login failed:", error);
+        
+                // Handle different error cases
+                if (error.response) {
+                    // Server responded with a status other than 2xx
+                    setError(error.response.data.message || "Login failed.");
+                } else if (error.request) {
+                    // Request was made, but no response received
+                    setError("Server is unreachable. Please check your connection.");
+                } else {
+                    // Something else happened
+                    setError("An error occurred. Please try again.");
+                }
+            } finally {
+                setUsername("");
+                setPassword("");
+            }
         };
+        
+      
     return (
       <>
         {/*
