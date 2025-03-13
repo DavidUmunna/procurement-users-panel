@@ -11,15 +11,15 @@ const user = {
 
 const navigation = [
   { name: 'Dashboard', to: '/dashboard', current: false },
-  { name: 'CreateOrder', to: '/createorder', current: false },
-  { name: 'OrderHistory', to: '#', current: false },
-  { name: 'OrderStatus', to: '#', current: false },
+  { name: 'CreateRequest', to: '/createorder', current: false },
+  { name: 'RequestHistory', to: '#', current: false },
+  { name: 'RequestStatus', to: '#', current: false },
 ];
 
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Sign out', href: '/signout' },
 ];
 
 function classNames(...classes) {

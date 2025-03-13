@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 //import  app from "../App" 
+import {Dashboard} from "./Dashboard";
 
 
 export default function Sign_in({setAuth}) {
@@ -11,7 +12,7 @@ export default function Sign_in({setAuth}) {
         const [username, setUsername] = useState("");
         const [password, setPassword] = useState("");
         const [error, setError] = useState("");
-    
+        
         
 
         const handleLogin = async (e) => {
@@ -31,6 +32,7 @@ export default function Sign_in({setAuth}) {
                 } else {
                     setError(response.data.message);
                 }
+                Dashboard(response.data)
             } catch (error) {
                 console.error("Login failed:", error);
         
@@ -48,6 +50,7 @@ export default function Sign_in({setAuth}) {
             } finally {
                 setUsername("");
                 setPassword("");
+                
             }
         };
         
@@ -86,6 +89,7 @@ export default function Sign_in({setAuth}) {
                     name="username"
                     type="username"
                     required
+                    value={username}
                     onChange={(e)=>setUsername(e.target.value)}
                     autoComplete="email"
                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -109,6 +113,7 @@ export default function Sign_in({setAuth}) {
                     id="password"
                     name="password"
                     type="password"
+                    value={password}
                     onChange={(e)=>setPassword(e.target.value)}
                     required
                     autoComplete="current-password"
