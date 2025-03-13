@@ -25,7 +25,7 @@ export default function Sign_in({setAuth}) {
         
                 console.log(response.data);
         
-                if (response.data.success) {
+                 if (response.data.success) {
                     setAuth(true);
                     navigate("/dashboard");
                 } else {
