@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import {Dashboard} from "./Dashboard";
 
 
+
 export default function Sign_in({setAuth}) {
         //const setAuth=app.setisauthenticated()
         const navigate = useNavigate();
@@ -23,6 +24,9 @@ export default function Sign_in({setAuth}) {
                     username,
                     password
                 });
+                if (!setAuth){
+                  
+                }
         
                 console.log(response.data);
         
@@ -32,7 +36,9 @@ export default function Sign_in({setAuth}) {
                 } else {
                     setError(response.data.message);
                 }
+                console.log(response.data)
                 Dashboard(response.data)
+               
             } catch (error) {
                 console.error("Login failed:", error);
         
