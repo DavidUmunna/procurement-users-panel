@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState  } from "react";
 //import { validate } from "../../../procurement_api/models/users";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-//import  app from "../App" 
+import { useNavigate } from "react-router-dom"
+import {useUser} from "./userContext"
 import {Dashboard} from "./Dashboard";
 
 
@@ -10,6 +10,7 @@ import {Dashboard} from "./Dashboard";
 export default function Sign_in({setAuth}) {
         //const setAuth=app.setisauthenticated()
         const navigate = useNavigate();
+        const { setUser } = useUser();
         const [username, setUsername] = useState("");
         const [password, setPassword] = useState("");
         const [error, setError] = useState("");
@@ -25,15 +26,14 @@ export default function Sign_in({setAuth}) {
                     username,
                     password
                 });
-                if (!setAuth){
-                  
-                }
-        
+                const token=localStorage.setItem("token",response.data.token)
+                console.log(token)
                 console.log(response.data);
         
                  if (response.data.success) {
                     setAuth(true);
-                    setUserData(response.data)
+                    setUser(response.data.user);
+                    setUserData(response.data.user)
                     navigate("/dashboard");
                 } else {
                     setError(response.data.message);

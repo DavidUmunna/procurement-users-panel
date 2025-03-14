@@ -4,9 +4,9 @@ const API_URL = "http://localhost:5000/api"; //  backend URL
 
 const orders="orders"
 
-export const getOrders = async () => {
+export const getOrders = async (email) => {
   try {
-    const response = await axios.get(`${API_URL}/${orders}`);
+    const response = await axios.get(`${API_URL}/${orders}/${email}`);
     console.log(response)
     return response.data;
   } catch (error) {
@@ -14,6 +14,7 @@ export const getOrders = async () => {
     return [];
   }
 };
+
 
 export const createOrder = async (orderData) => {
   try {

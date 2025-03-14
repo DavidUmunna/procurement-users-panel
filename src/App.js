@@ -1,4 +1,5 @@
 import User from "./components/user-navbar";
+import { UserProvider } from "./components/userContext";
 import React, { useState } from 'react';
 import SignIn from "./components/sign_in"
 import CreateOrder from "./components/CreateOrder";
@@ -7,6 +8,7 @@ import {Dashboard} from "./components/Dashboard"
 import { AnimatePresence, motion } from "framer-motion";
 import {  useLocation } from "react-router-dom"
 import SignOut from "./components/sign_out";
+import Requesthistory from "./components/requestHistory"
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -36,9 +38,9 @@ function App() {
                 return;
             }
 
-            const response = await fetch("http://localhost:5000/api/user", {
+            const response = await fetch("http://localhost:5000/api/users", {
                 method: "GET",
-                credentials: "include",
+                
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}` // Send token
@@ -52,16 +54,16 @@ function App() {
             const data = await response.json();
             console.log("User Data:", data);
             setuser_data(data); // Store user data in state
-            setisauthenticated(true);
+            
         } catch (error) {
             console.error("Error fetching user data:", error);
             
         }
     };
+   
+    fetchUserData()// Call the function
 
-    fetchUserData(); // Call the function
-
-}, []); 
+}, [isauthenticated]); 
 
   
 
@@ -69,7 +71,7 @@ function App() {
 
   return (
     
-      
+    <UserProvider>
       <div>
         <AnimatePresence mode="wait">
 
@@ -77,17 +79,17 @@ function App() {
               <Routes location={useLocation()} key={useLocation().pathname} >
                 <Route path="/" element={isauthenticated?<Dashboard user_data={user_data}/>:<Navigate to="/signin"/>}/>
                 <Route path="/signin" element={<SignIn setAuth={setisauthenticated}/>}/>
+                <Route path="/requesthistory" element={isauthenticated? <Requesthistory />:<PageTransition>  <Navigate to="/signin" /></PageTransition>}/>
                 <Route path="/dashboard" element={isauthenticated ? <Dashboard user_data={user_data} /> : <PageTransition>  <Navigate to="/signin" /></PageTransition>} />
                 <Route path="/user"   element={isauthenticated? <User/> :<PageTransition>  <Navigate to="/signin" /></PageTransition>} />
                 <Route path="/createorder" element={isauthenticated? <CreateOrder />:<Navigate to="/signin"/>} />
                 <Route path="/signout" element={<SignOut setAuth={setisauthenticated} />} />
-             
               </Routes>
           </div>
         </AnimatePresence>
         
       </div>
-    
+    </UserProvider>
   );
 }
 

@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { createOrder } from "../services/OrderService";
 import User from "./user-navbar"
+import {useUser} from "./userContext"
 
 const CreateOrder = () => {
+  const { user } = useUser();
   const [supplier, setSupplier] = useState("Halden");
   const [products, setProducts] = useState([{ Name: "", quantity: 1 ,price:`₦${0}`}]);
   const [orderedBy,setorderedBy]=useState("")
+  const [email, setemail]=useState("")
   //const [price,setPrice]=useState(`₦`)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const orderData=await createOrder({ supplier, products, orderedBy });
-  
+    setemail(user.email)
+    const orderData=await createOrder({ supplier, products, orderedBy,email });
+    
     console.log("Submitting order data:", orderData);
     
     setorderedBy("");

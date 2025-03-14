@@ -6,19 +6,17 @@ import React from 'react';
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
-  imageUrl: require("./assets/happy.png"),
+  imageUrl: require("./assets/user.png"),
 };
 
 const navigation = [
   { name: 'Dashboard', to: '/dashboard', current: false },
   { name: 'CreateRequest', to: '/createorder', current: false },
-  { name: 'RequestHistory', to: '#', current: false },
-  { name: 'RequestStatus', to: '#', current: false },
+  { name: 'RequestHistory', to: '/requesthistory', current: false },
+
 ];
 
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '/signout' },
 ];
 
