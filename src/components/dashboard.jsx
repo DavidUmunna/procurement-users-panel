@@ -12,7 +12,7 @@ import React from 'react';
     avatarUrl: "https://randomuser.me/api/portraits/men/1.jpg",
   };*/
 
-export const  Dashboard=(user_data)=>{
+export const Dashboard=({user_data})=>{
     
    
     
@@ -25,7 +25,7 @@ export const  Dashboard=(user_data)=>{
             </nav>
            
                 
-            <h1 className="text-3xl font-bold text-gray-800">Welcome {user_data.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Welcome {user_data?.name}</h1>
             <p className="text-gray-600 mt-2">Manage your Requests efficiently.</p>
             <UserDetails user={user_data} />
         </div>

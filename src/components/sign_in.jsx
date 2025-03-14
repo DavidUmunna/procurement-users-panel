@@ -13,6 +13,7 @@ export default function Sign_in({setAuth}) {
         const [username, setUsername] = useState("");
         const [password, setPassword] = useState("");
         const [error, setError] = useState("");
+        const [userData, setUserData] = useState(null)
         
         
 
@@ -32,12 +33,13 @@ export default function Sign_in({setAuth}) {
         
                  if (response.data.success) {
                     setAuth(true);
+                    setUserData(response.data)
                     navigate("/dashboard");
                 } else {
                     setError(response.data.message);
                 }
                 console.log(response.data)
-                Dashboard(response.data)
+               
                
             } catch (error) {
                 console.error("Login failed:", error);
@@ -146,6 +148,7 @@ export default function Sign_in({setAuth}) {
               </a>
             </p>
           </div>
+          {userData && <Dashboard userData={userData} />}
         </div>
       </>
     )
