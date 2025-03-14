@@ -1,13 +1,19 @@
 import React from "react";
 
-const UserDetails = (user ) => {
+const UserDetails = ({user} ) => {
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 text-center">
       <div className="flex flex-col items-center">
         <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
+<<<<<<< HEAD
+        {user.imageurl ? (
+            <img src={user.imageurl} alt={user.name} className="w-full h-full object-cover" />
+        ) : (
+=======
           {user.imageurl ? (
             <img src={user.imageurl} alt={user.name} className="w-full h-full object-cover" />
           ) : (
+>>>>>>> d872c692ae711ce6ce62ac20fb6f8a8fdcbf7b05
             <div className="w-full h-full flex items-center justify-center text-gray-500 text-2xl font-semibold">
               {user.name}
             </div>

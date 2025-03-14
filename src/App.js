@@ -21,10 +21,49 @@ const PageTransition = ({ children }) => (
 function App() {
   
   const [isauthenticated, setisauthenticated]=useState(false)
-  
+  const [user_data,setuser_data]=useState({})
   React.useEffect(() => {
     console.log("Is Authenticated:", isauthenticated);
-  }, [isauthenticated]);
+
+    const fetchUserData = async () => {
+        try {
+            console.log("Fetching user data...");
+            const token = localStorage.getItem("token"); // Get stored token
+
+            if (!token) {
+                console.log("No token found. User is not authenticated.");
+                setisauthenticated(false); // Explicitly set authentication state
+                return;
+            }
+
+            const response = await fetch("http://localhost:5000/api/user", {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` // Send token
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch user data");
+            }
+
+            const data = await response.json();
+            console.log("User Data:", data);
+            setuser_data(data); // Store user data in state
+            setisauthenticated(true);
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            
+        }
+    };
+
+    fetchUserData(); // Call the function
+
+}, []); 
+
+  
 
 
 
@@ -35,10 +74,10 @@ function App() {
         <AnimatePresence mode="wait">
 
           <div >
-              <Routes loocation={useLocation()} key={useLocation().pathname} >
-                <Route path="/" element={isauthenticated?<Dashboard/>:<Navigate to="/signin"/>}/>
+              <Routes location={useLocation()} key={useLocation().pathname} >
+                <Route path="/" element={isauthenticated?<Dashboard user_data={user_data}/>:<Navigate to="/signin"/>}/>
                 <Route path="/signin" element={<SignIn setAuth={setisauthenticated}/>}/>
-                <Route path="/dashboard" element={isauthenticated ? <Dashboard /> : <PageTransition>  <Navigate to="/signin" /></PageTransition>} />
+                <Route path="/dashboard" element={isauthenticated ? <Dashboard user_data={user_data} /> : <PageTransition>  <Navigate to="/signin" /></PageTransition>} />
                 <Route path="/user"   element={isauthenticated? <User/> :<PageTransition>  <Navigate to="/signin" /></PageTransition>} />
                 <Route path="/createorder" element={isauthenticated? <CreateOrder />:<Navigate to="/signin"/>} />
                 <Route path="/signout" element={<SignOut setAuth={setisauthenticated} />} />
