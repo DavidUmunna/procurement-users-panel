@@ -32,7 +32,7 @@ export default function Sign_in({setAuth}) {
                 } else {
                     setError(response.data.message);
                 }
-                Dashboard(response.data)
+                
             } catch (error) {
                 console.error("Login failed:", error);
         
@@ -68,7 +68,7 @@ export default function Sign_in({setAuth}) {
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
-              alt="Your Company"
+              alt="Halden"
               src={require("./assets/procurement.png")}
               className="mx-auto h-10 w-auto"
             />

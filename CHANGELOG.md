@@ -6,5 +6,5 @@ sync dashboard with database
 implement sign out
 
 ##workdone 
--dashboar ync almost fully implemented
+-dashboard ync almost fully implemented
 -signout almost fully implemented

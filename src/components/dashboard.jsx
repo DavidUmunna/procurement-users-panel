@@ -12,7 +12,7 @@ import React from 'react';
     avatarUrl: "https://randomuser.me/api/portraits/men/1.jpg",
   };*/
 
-export const  Dashboard=(user_data)=>{
+export const  Dashboard=({user_data})=>{
     
    
     
