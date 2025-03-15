@@ -2,6 +2,7 @@ import UserDetails from "./UserDetails"
 import User from "./user-navbar"
 import React from 'react';
 import { useUser } from "./userContext";
+import RequestHistory from "./requestHistory";
 //import { useEffect } from "react";
 //import  {handleLogin} from "./sign_in"
 
@@ -11,6 +12,7 @@ export const Dashboard=()=>{
     
     
     const { user } = useUser();
+    console.log(user)
     
    
 
@@ -22,9 +24,10 @@ export const Dashboard=()=>{
             </nav>
            
                 
-            <h1 className="text-3xl font-bold text-gray-800">Welcome {user?.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Welcome {user?.name.split(" ")[1]}</h1>
             <p className="text-gray-600 mt-2">Manage your Requests efficiently.</p>
             <UserDetails user={user} />
+            
         </div>
     )
   

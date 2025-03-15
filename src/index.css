@@ -1,4 +1,7 @@
 /* filepath: c:\Users\HP\Desktop\dev\procurement_app\procurement-users-panel\src\index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* filepath: c:\Users\HP\Desktop\dev\procurement_app\procurement-users-panel\src\index.css */
 

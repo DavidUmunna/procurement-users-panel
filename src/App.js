@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import {  useLocation } from "react-router-dom"
 import SignOut from "./components/sign_out";
 import Requesthistory from "./components/requestHistory"
+import { useUser } from "./components/userContext";
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -21,13 +22,14 @@ const PageTransition = ({ children }) => (
   </motion.div>
 );
 function App() {
-  
+  const {user}=useUser
+  console.log(user)
   const [isauthenticated, setisauthenticated]=useState(false)
   const [user_data,setuser_data]=useState({})
   React.useEffect(() => {
     console.log("Is Authenticated:", isauthenticated);
 
-    const fetchUserData = async () => {
+    /*const fetchUserData = async () => {
         try {
             console.log("Fetching user data...");
             const token = localStorage.getItem("token"); // Get stored token
@@ -59,9 +61,9 @@ function App() {
             console.error("Error fetching user data:", error);
             
         }
-    };
+    };*/
    
-    fetchUserData()// Call the function
+    /*fetchUserData()// Call the function*/
 
 }, [isauthenticated]); 
 
@@ -79,8 +81,8 @@ function App() {
               <Routes location={useLocation()} key={useLocation().pathname} >
                 <Route path="/" element={isauthenticated?<Dashboard user_data={user_data}/>:<Navigate to="/signin"/>}/>
                 <Route path="/signin" element={<SignIn setAuth={setisauthenticated}/>}/>
-                <Route path="/requesthistory" element={isauthenticated? <Requesthistory />:<PageTransition>  <Navigate to="/signin" /></PageTransition>}/>
-                <Route path="/dashboard" element={isauthenticated ? <Dashboard user_data={user_data} /> : <PageTransition>  <Navigate to="/signin" /></PageTransition>} />
+                <Route path="/requesthistory" element={isauthenticated? <Requesthistory  user={user}/>:<PageTransition>  <Navigate to="/signin" /></PageTransition>}/>
+                <Route path="/dashboard" element={isauthenticated ? <Dashboard  /> : <PageTransition>  <Navigate to="/signin" /></PageTransition>} />
                 <Route path="/user"   element={isauthenticated? <User/> :<PageTransition>  <Navigate to="/signin" /></PageTransition>} />
                 <Route path="/createorder" element={isauthenticated? <CreateOrder />:<Navigate to="/signin"/>} />
                 <Route path="/signout" element={<SignOut setAuth={setisauthenticated} />} />

@@ -1,9 +1,13 @@
-import { useState  } from "react";
+
 //import { validate } from "../../../procurement_api/models/users";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
 import {useUser} from "./userContext"
 import {Dashboard} from "./Dashboard";
+import { useState } from "react";
+//import { Card, CardContent } from "@/components/ui/card";
+//import { Button } from "@/components/ui/button";
+//import { Mail, Phone, X } from "lucide-react";
 
 
 
@@ -15,12 +19,12 @@ export default function Sign_in({setAuth}) {
         const [password, setPassword] = useState("");
         const [error, setError] = useState("");
         const [userData, setUserData] = useState(null)
+        const [isVisible, setIsVisible] = useState(false);
         
         
-
         const handleLogin = async (e) => {
             e.preventDefault();
-        
+            //console.log(setUser)
             try {
                 const response = await axios.post("http://localhost:5000/api/signin", {
                     username,
@@ -53,7 +57,7 @@ export default function Sign_in({setAuth}) {
                     setError("Server is unreachable. Please check your connection.");
                 } else {
                     // Something else happened
-                    setError("An error occurred. Please try again.");
+                    setError("An error occurred. Please try again.",error);
                 }
             } finally {
                 setUsername("");
@@ -140,16 +144,52 @@ export default function Sign_in({setAuth}) {
                 {error && <p style={{ color: "red" }}>{error}</p>}
               </div>
             </form>
-  
-            <p className="mt-10 text-center text-sm/6 text-gray-500">
+            <div className="flex justify-center m-4">
+              <p className="mt-10 text-center text-sm/6 text-gray-500">
               Can't sign in?{' '}
-              <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-               contact IT team
-              </a>
-            </p>
-          </div>
+              </p>
+
+                {/* Contact IT Button */}
+                <a 
+                  onClick={() => setIsVisible(true)} 
+                   className=" flex items-end font-bold text-blue-700  text-sm transition cursor-pointer"
+                >
+                  Contact IT Team
+                </a>
+          
+            </div>
+            {/* IT Contact Card */}
+            {isVisible && (
+              <div className="mt-6 w-full bg-white shadow-lg rounded-lg p-6 sm:max-w-sm md:max-w-lg">
+                <h2 className="text-xl font-bold text-gray-800">IT Support</h2>
+                <p className="text-gray-600 mt-2">Need help? Contact our IT team.</p>
+      
+                <div className="mt-4">
+                  <p className="text-gray-800 font-semibold">Email:</p>
+                  <p className="text-gray-600">c.onu@hamldengroup.ng</p>
+                </div>
+      
+                <div className="mt-2">
+                  <p className="text-gray-800 font-semibold">Phone:</p>
+                  <p className="text-gray-600">+2347068911690</p>
+                </div>
+      
+                <div className="mt-4 sm:max-w-sm">
+                  <button 
+                    onClick={() => setIsVisible(false)} 
+                    className="bg-red-500 text-white w-full py-2 rounded-lg hover:bg-red-600 transition"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+            </div>
+              
+         </div>
+            
           {userData && <Dashboard userData={userData} />}
-        </div>
+        
       </>
     )
   }

@@ -9,5 +9,10 @@ implement sign out
 -dashboard ync almost fully implemented
 -signout almost fully implemented
 
+
+##[14/03/25]
 ##in progress 
 -implementation of request history
+
+##[15/03/25]
+-implementation of request history user panel front end 

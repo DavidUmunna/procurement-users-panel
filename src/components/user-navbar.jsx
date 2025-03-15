@@ -2,12 +2,9 @@ import { Disclosure, Menu } from '@headlessui/react';
 import { Bars4Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from "react-router-dom";
 import React from 'react';
+import { useUser } from './userContext';
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl: require("./assets/user.png"),
-};
+
 
 const navigation = [
   { name: 'Dashboard', to: '/dashboard', current: false },
@@ -25,6 +22,7 @@ function classNames(...classes) {
 }
 
 export default function User() {
+  const {user}=useUser()
   return (
     <>
       <div className="min-h-full">

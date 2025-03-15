@@ -11,7 +11,7 @@ const UserDetails = ({ user }) => {
             <img src={require("./assets/user.png")} alt={user.name} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-500 text-2xl font-semibold">
-              {user.name.charAt(0)} {/* Display first letter as fallback */}
+              {user.name.charAt(0).toUpperCase()} {/* Display first letter as fallback */}
             </div>
           )}
         </div>

@@ -13,7 +13,10 @@ const CreateOrder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     setemail(user.email)
+
+    console.log(email)
     const orderData=await createOrder({ supplier, products, orderedBy,email });
     
     console.log("Submitting order data:", orderData);
@@ -47,7 +50,7 @@ const CreateOrder = () => {
       <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
 
         <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Create Purchase Request</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Create Request</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">Supplier :</label>
@@ -71,7 +74,7 @@ const CreateOrder = () => {
               />
             </div>
   
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">Products</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Items </h3>
             {products.map((item, index) => (
               <div key={index} className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
                 <input
@@ -110,15 +113,15 @@ const CreateOrder = () => {
             <button
               type="button"
               onClick={addProduct}
-              className="px-2  py-2 w-70 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+              className="px-2 py-2 w-full bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
             >
-              Add Product
+              Add Item
             </button>
             <button
               type="submit"
               className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
             >
-              Create Order
+              Submit Request
             </button>
           </form>
         </div>
