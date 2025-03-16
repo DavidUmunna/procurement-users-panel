@@ -3,6 +3,7 @@ import { createOrder } from "../services/OrderService";
 import User from "./user-navbar"
 import {useUser} from "./userContext"
 
+
 const CreateOrder = () => {
   const { user } = useUser();
   const [supplier, setSupplier] = useState("Halden");

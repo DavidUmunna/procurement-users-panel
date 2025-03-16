@@ -16,3 +16,6 @@ implement sign out
 
 ##[15/03/25]
 -implementation of request history user panel front end 
+-implemented admin logging
+-implemented admin user details component
+-implemented sign out

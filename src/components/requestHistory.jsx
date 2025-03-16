@@ -43,7 +43,7 @@ const RequestHistory=()=>{
             <nav className="sticky top-0  ">
                             <Usernav />
             </nav>
-            <div className="max-w-4xl mx-auto p-6">
+            <div className="max-w-4xl mx-auto p-6 min-h-screen bg-gray-100">
            
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">My Request History</h2>
         
@@ -52,7 +52,7 @@ const RequestHistory=()=>{
                 ) : Requests.length === 0 ? (
                   <p className="text-center text-gray-500">No requests found.</p>
                 ) : (
-                    <div className="w-full overflow-x-auto rounded-lg shadow-md">
+                    <div className="w-full overflow-x-auto rounded-lg shadow-md min-h-screen  bg-gray-100 ">
                     <table className="w-full bg-white border-collapse">
                       {/* Table Head */}
                       <thead className="bg-indigo-600 text-white">
