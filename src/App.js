@@ -10,6 +10,7 @@ import SignOut from "./components/sign_out";
 import Requesthistory from "./components/requestHistory";
 import axios from "axios";
 
+
 const pageVariants = {
   initial: { opacity: 0, x: -50 },
   animate: { opacity: 1, x: 0 },
@@ -49,6 +50,7 @@ function App() {
 
   return (
     <UserProvider>
+      {isauthenticated && <User />}
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/signin" element={!isauthenticated ? <PageTransition><SignIn setAuth={setisauthenticated} /></PageTransition> : <Navigate to="/dashboard" />} />

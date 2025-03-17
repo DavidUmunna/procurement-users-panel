@@ -40,9 +40,7 @@ const RequestHistory=()=>{
 
     return(
         <div>
-            <nav className="sticky top-0  ">
-                            <Usernav />
-            </nav>
+            
             <div className="max-w-4xl mx-auto p-6 min-h-screen bg-gray-100">
            
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">My Request History</h2>

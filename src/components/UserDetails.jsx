@@ -4,10 +4,13 @@ import React from "react";
 
 const UserDetails = ({ user }) => {
   return (
+    
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 text-center">
+      {user?
+      <>
       <div className="flex flex-col items-center">
         <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
-          {user.imageurl ? (
+          {user?.imageurl ? (
             <img src={require("./assets/user.png")} alt={user.name} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-500 text-2xl font-semibold">
@@ -30,6 +33,7 @@ const UserDetails = ({ user }) => {
           </div>
         )}
       </div>
+      </>:null}
     </div>
   );
 }; 

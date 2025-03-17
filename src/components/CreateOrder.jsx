@@ -45,9 +45,7 @@ const CreateOrder = () => {
 
   return (
     <div>
-      <nav className="sticky top-0  ">
-              <User />
-      </nav>
+     
       <div className="min-h-screen bg-gray-100 flex justify-center items-center p-6">
 
         <div className="w-full max-w-3xl bg-white shadow-lg rounded-xl p-6">
