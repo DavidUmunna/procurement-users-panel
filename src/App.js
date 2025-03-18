@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import SignOut from "./components/sign_out";
 import Requesthistory from "./components/requestHistory";
 import axios from "axios";
+import Forgotpassword from "./components/forgotpassword"
 
 
 const pageVariants = {
@@ -56,6 +57,7 @@ function App() {
           <Route path="/signin" element={!isauthenticated ? <PageTransition><SignIn setAuth={setisauthenticated} /></PageTransition> : <Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={isauthenticated ? <PageTransition><Dashboard /></PageTransition> : <Navigate to="/signin" />} />
           <Route path="/requesthistory" element={isauthenticated ? <PageTransition><Requesthistory /></PageTransition> : <Navigate to="/signin" />} />
+          <Route path="/forgotpassword" element={ <PageTransition><Forgotpassword /></PageTransition> } />
           <Route path="/user" element={isauthenticated ? <PageTransition><User /></PageTransition> : <Navigate to="/signin" />} />
           <Route path="/createorder" element={isauthenticated ? <PageTransition><CreateOrder /></PageTransition> : <Navigate to="/signin" />} />
           <Route path="/signout" element={<PageTransition><SignOut setAuth={setisauthenticated} /></PageTransition>} />

@@ -15,10 +15,32 @@ export const getUsers = async () => {
     return [];
   }
 }
+export const getuserbymail=async(email)=>{
+  try{
+    const response=await axios.get(`${API_URL}/${route}/${email}`)
+    if (response){
+      console.log("user email exists")
+    }else{
+      console.log("user doesnt exist")
+    }
+
+  }catch(error){
+      console.error("an error occured:",error)
+  }
+}
 export const deleteUser = async (userId) => {
   try {
     await axios.delete(`${API_URL}/${route}/${userId}`);
   } catch (error) {
     console.error("Error deleting user:", error);
   }
+}
+export const  updateUser= async (email,password)=>{
+  try{
+    await axios.put(`${API_URL}/${route}/${email}`,password)
+  }catch(error){
+    console.error({message:"an error occured"},error)
+  }
+
+
 }
