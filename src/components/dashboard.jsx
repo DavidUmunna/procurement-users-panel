@@ -19,9 +19,7 @@ export const Dashboard=()=>{
     return(
         <div className=" min-h-screen bg-gray-100 ">
             
-            <nav className="sticky top-0  ">
-                <User />
-            </nav>
+           
            
                 
             <h1 className="text-3xl font-bold text-gray-800">Welcome {user?.name.split(" ")[1]}</h1>
