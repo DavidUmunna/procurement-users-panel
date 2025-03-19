@@ -42,26 +42,18 @@ const CreateOrder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("supplier", supplier);
-    formData.append("orderedBy", orderedBy);
-    formData.append("email", email);
-    formData.append("urgency", urgency);
-    formData.append("remarks", remarks);
-
-    products.forEach((product, index) => {
-      formData.append(`products[${index}][name]`, product.name);
-      formData.append(`products[${index}][quantity]`, product.quantity);
-      formData.append(`products[${index}][price]`, product.price);
-    });
-
-    files.forEach((file) => {
-      formData.append("files", file);
-    });
+    
+    
 
     try {
-      const orderData = await createOrder(formData);
+      const orderData = await createOrder({ supplier, orderedBy,email,products, urgency, files, remarks });
+  
+      console.log("Submitting order data:", orderData);
+  
+      setOrderedBy("");
+      
+
+
       console.log("Order created:", orderData);
 
       setSupplier("Halden");
