@@ -28,6 +28,15 @@ export const getuserbymail=async(email)=>{
       console.error("an error occured:",error)
   }
 }
+export const updateUserpassword = async (email, newPassword) => {
+  try {
+    const response = await axios.put(`${API_URL}/${route}/${email}`, { email,newPassword });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating password:", error);
+    throw error; // Rethrow error for proper handling in calling function
+  }
+};
 export const deleteUser = async (userId) => {
   try {
     await axios.delete(`${API_URL}/${route}/${userId}`);

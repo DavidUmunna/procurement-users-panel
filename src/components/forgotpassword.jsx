@@ -1,78 +1,131 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-//import { Input } from "@/components/ui/input";
-//import { Button } from "@/components/ui/button";
-import { updateUser, getuserbymail } from "../services/userService";
-//import {  AnimatePresence } from "framer-motion"
+import { updateUserpassword, getuserbymail } from "../services/userService";
+import {useNavigate} from "react-router-dom"
+
 
 export default function ForgotPassword() {
+  const navigate=useNavigate()
   const [email, setEmail] = useState("");
-  const [Error,setError]=useState("")
+  const [error, setError] = useState("");
   const [step, setStep] = useState(1);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  
-  const handleEmailSubmit = () => {
-    try{
-        console.log(email)
-        const email_verification= getuserbymail(email)
-        if(email_verification){
-            console.log("email verified")
-        }else{
-            console.log(email_verification.data.message)
-        }
-    }catch(error){
-        if (error.response) {
-            setError(error.response.data.message)
-        }
-    
-    // Simulate API request for sending reset email
-    setTimeout(() => setStep(2), 1000);
-    };
-   }
+  const [loading, setLoading] = useState(false);
 
-  const handleResetPassword = () => {
-    if (newPassword === confirmPassword) {
-      const response= updateUser(email,newPassword)
-      if (response){
-        console.log("user password updated successfully")
-      }else{
-        console.log("user password update failed")
+  const handleEmailSubmit = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      const email_verification = await getuserbymail(email);
+      if (email_verification) {
+        console.log("Email verified");
+        setStep(2);
+      } else {
+        setError("Email not found. Please check again.");
       }
-      // Simulate password reset API request
+    } catch (error) {
+      setError(error.response?.data?.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handlesigninredirection=()=>{
+    navigate("/signin")
+  }
+
+  const handleResetPassword = async () => {
+    setError("");
+    console.log(email)
+    if (newPassword !== confirmPassword) {
       
+      setError("Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      
+      const response = await updateUserpassword(email, newPassword);
+      if (response) {
+        console.log("User password updated successfully");
+        setStep(3);
+      } else {
+        setError("User password update failed");
+      }
+    } catch (error) {
+      setError(error.response?.data?.message || "Something went wrong.");
+    } finally {
+      navigate("/adminlogin")
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }} 
-        animate={{ opacity: 1, y: 0 }} 
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="bg-white p-8 rounded-2xl shadow-lg w-96"
       >
         {step === 1 && (
-          <div>
-              <motion.div exit={{ opacity: 0 }}>
-                <h2 className="text-xl font-bold mb-4">Forgot Password</h2>
-                <p className="text-gray-600 mb-4">Enter your email to receive a reset link.</p>
-                <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <button onClick={handleEmailSubmit} className="mt-4 w-full">Send Reset Link</button>
-              </motion.div>
-              
-              {Error}
-                              
-          </div>
-          
+          <motion.div exit={{ opacity: 0 }}>
+            <h2 className="text-xl font-bold mb-4">Forgot Password</h2>
+            <p className="text-gray-600 mb-4">Enter your email to receive a reset link.</p>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 border rounded"
+            />
+            <button
+              onClick={handleEmailSubmit}
+              disabled={loading}
+              className="mt-4 w-full bg-blue-500 text-white py-2 rounded disabled:bg-gray-400"
+            >
+               
+              {loading ? "Processing..." : "Send Reset Link"}
+            </button>
+            <button
+              onClick={handlesigninredirection}
+              disabled={loading}
+              className="mt-4 w-full bg-blue-500 text-white py-2 rounded disabled:bg-gray-400"
+            >
+               
+              {loading ? "Processing..." : "Back to LogIn"}
+            </button>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
+          </motion.div>
         )}
 
         {step === 2 && (
           <motion.div exit={{ opacity: 0 }}>
             <h2 className="text-xl font-bold mb-4">Reset Password</h2>
-            <input type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-            <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="mt-2" />
-            <button onClick={handleResetPassword} className="mt-4 w-full">Reset Password</button>
+            <input
+              type="password"
+              placeholder="New Password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="w-full p-2 border rounded"
+            />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full p-2 border rounded mt-2"
+            />
+            <button
+              onClick={handleResetPassword}
+              disabled={loading}
+              className="mt-4 w-full bg-green-500 text-white py-2 rounded disabled:bg-gray-400"
+            >
+              {loading ? "Updating..." : "Reset Password"}
+            </button>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
           </motion.div>
         )}
 
@@ -80,10 +133,10 @@ export default function ForgotPassword() {
           <motion.div exit={{ opacity: 0 }}>
             <h2 className="text-xl font-bold mb-4">Success!</h2>
             <p className="text-green-600">Your password has been reset successfully.</p>
+
           </motion.div>
         )}
       </motion.div>
     </div>
   );
 }
-

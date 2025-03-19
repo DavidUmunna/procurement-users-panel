@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createOrder } from "../services/OrderService";
-//import Navbar from "./navBar";
+import { upload, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import {useUser} from "./userContext"
+import { useUser } from "./userContext";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -21,30 +21,59 @@ const buttonVariants = {
 const CreateOrder = () => {
   const { user } = useUser();
   const [supplier, setSupplier] = useState("Halden");
-  const [products, setProducts] = useState([{ Name: "", quantity: 1, price: `₦${0}` }]);
+  const [products, setProducts] = useState([{ name: "", quantity: 1, price: 0 }]);
   const [orderedBy, setOrderedBy] = useState("");
   const [urgency, setUrgency] = useState("");
-  const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [remarks, setRemarks] = useState("");
-  const [email, setemail]=useState("")
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setOrderedBy(user.name);
+      setEmail(user.email);
+    }
+  }, [user]);
+
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const uploadedFiles = event.target.files ? Array.from(event.target.files) : [];
+    setFiles(uploadedFiles);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setemail(user.email)
-    const orderData = await createOrder({ supplier, orderedBy,email, urgency, file, remarks });
 
-    console.log("Submitting order data:", orderData);
+    const formData = new FormData();
+    formData.append("supplier", supplier);
+    formData.append("orderedBy", orderedBy);
+    formData.append("email", email);
+    formData.append("urgency", urgency);
+    formData.append("remarks", remarks);
 
-    setOrderedBy("");
-    setSupplier("Company");
-    setProducts([{ Name: "", quantity: 1, price: `₦${0}` }]);
-    setUrgency("");
-    setFile(null);
-    setRemarks("");
-    alert("Order Created!");
+    products.forEach((product, index) => {
+      formData.append(`products[${index}][name]`, product.name);
+      formData.append(`products[${index}][quantity]`, product.quantity);
+      formData.append(`products[${index}][price]`, product.price);
+    });
+
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    try {
+      const orderData = await createOrder(formData);
+      console.log("Order created:", orderData);
+
+      setSupplier("Halden");
+      setProducts([{ name: "", quantity: 1, price: 0 }]);
+      setUrgency("");
+      setFiles([]);
+      setRemarks("");
+      alert("Order Created!");
+    } catch (error) {
+      console.error("Error creating order:", error);
+      alert("Failed to create order. Please try again.");
+    }
   };
 
   const handleProductChange = (index, field, value) => {
@@ -54,7 +83,7 @@ const CreateOrder = () => {
   };
 
   const addProduct = () => {
-    setProducts([...products, { Name: "", quantity: 1, price: `₦${0}` }]);
+    setProducts([...products, { name: "", quantity: 1, price: 0 }]);
   };
 
   const removeProduct = (index) => {
@@ -99,7 +128,6 @@ const CreateOrder = () => {
               />
             </motion.div>
 
-            {/* Urgency Dropdown */}
             <label className="block mb-2">Urgency</label>
             <select
               value={urgency}
@@ -107,20 +135,31 @@ const CreateOrder = () => {
               className="w-full p-2 border rounded mb-4"
             >
               <option value="">Select Urgency</option>
-              <option value="VeryUrgent">Very Urgent</option>
+              <option className="text-red-500" value="VeryUrgent">Very Urgent</option>
               <option value="Urgent">Urgent</option>
               <option value="Not Urgent">Not Urgent</option>
             </select>
 
-            {/* File Upload */}
-            <label className="block mb-2">Upload Document/Picture</label>
-            <input 
-              type="file" 
-              onChange={handleFileChange} 
-              className="w-full p-2 border rounded mb-4" 
-            />
+            <div className="flex flex-col items-center justify-center w-full">
+              <label className="w-64 h-32 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition p-4">
+                <input type="file" multiple className="hidden" onChange={handleFileChange} />
+                {files.length === 0 ? (
+                  <div className="flex flex-col items-center text-gray-500">
+                    <FileText size={40} />
+                    <p className="text-sm mt-2">Click or drag files here (not more than 16mb)</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {files.map((file, index) => (
+                      <span key={index} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg text-sm">
+                        {file.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </label>
+            </div>
 
-            {/* Remarks Text Area */}
             <label className="block mb-2">Remarks/Message</label>
             <textarea
               value={remarks}
@@ -129,7 +168,7 @@ const CreateOrder = () => {
               placeholder="Describe your request..."
             ></textarea>
 
-            {/*<h3 className="text-xl font-semibold text-gray-800 mb-2">Products</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Request</h3>
             <AnimatePresence>
               {products.map((item, index) => (
                 <motion.div
@@ -142,8 +181,8 @@ const CreateOrder = () => {
                   <input
                     type="text"
                     placeholder="Product Name"
-                    value={item.Name}
-                    onChange={(e) => handleProductChange(index, "Name", e.target.value)}
+                    value={item.name}
+                    onChange={(e) => handleProductChange(index, "name", e.target.value)}
                     required
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -163,9 +202,26 @@ const CreateOrder = () => {
                     required
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
+                  <motion.button
+                    type="button"
+                    onClick={() => removeProduct(index)}
+                    className="px-2 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    Remove
+                  </motion.button>
                 </motion.div>
               ))}
-            </AnimatePresence>*/}
+            </AnimatePresence>
+            <motion.button
+              type="button"
+              onClick={addProduct}
+              className="p-2 y-4 w-full bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+              variants={buttonVariants}
+              whileHover="hover"
+            >
+              Add Product
+            </motion.button>
             <motion.button type="submit" className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">Create Request</motion.button>
           </motion.form>
         </motion.div>

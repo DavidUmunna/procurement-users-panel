@@ -60,6 +60,7 @@ const RequestHistory=()=>{
                           <th className="px-4 py-2 text-left">Quantity</th>
                           <th className="px-4 py-2 text-left">Price</th>
                           <th className="px-4 py-2 text-left">Urgency</th>
+                          <th className="px-4 py-2 text-left">File</th>
                           <th className="px-4 py-2 text-left">Remark</th>
                           <th className="px-4 py-2 text-left">Status</th>
                           <th className="px-4 py-2 text-left">Date & Time</th>
@@ -88,6 +89,9 @@ const RequestHistory=()=>{
                                 </tbody>
                               </table>
                             </td>
+                            <td className="px-4 py-2 font-medium text-center border-b">{req.urgency}</td>
+                            <td className="px-4 py-2 font-medium text-center border-b">{req.file}</td>
+                            <td className="px-4 py-2 font-medium text-center border-b">{req.remark}</td>
                   
                             {/* Status Column */}
                             <td
