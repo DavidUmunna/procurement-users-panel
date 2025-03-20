@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import SignIn from "./components/sign_in";
 import CreateOrder from "./components/CreateOrder";
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
-import { Dashboard } from "./components/dashboard";
+import { Dashboard } from "./components/Dashboard";
 import { AnimatePresence, motion } from "framer-motion";
 import SignOut from "./components/sign_out";
 import Requesthistory from "./components/requestHistory";

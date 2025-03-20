@@ -43,6 +43,7 @@ const CreateOrder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     //const form=e.target
     const formData = new FormData();
     //let formdataobject=Object.fromEntries(formData.entries())
@@ -65,6 +66,21 @@ const CreateOrder = () => {
       const fileupload=await createOrder({formData:formData,orderData:payload});
       console.log("file uploaded:",fileupload);
   
+=======
+    
+    
+
+    try {
+      const orderData = await createOrder({ supplier, orderedBy,email,products, urgency, files, remarks });
+  
+      console.log("Submitting order data:", orderData);
+  
+      setOrderedBy("");
+      
+
+
+      console.log("Order created:", orderData);
+>>>>>>> a3755e24a1a74b676d8c63bd95825c8e59e13758
 
       setSupplier("Halden");
       setProducts([{ name: "", quantity: 1, price: 0 }]);

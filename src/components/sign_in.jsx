@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "./userContext";
-import { Dashboard } from "./dashboard";
+import { Dashboard } from "./Dashboard";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
