@@ -16,16 +16,29 @@ export const getOrders = async (email) => {
 };
 
 
-export const createOrder = async (orderData) => {
+export const createOrder = async ({ formData, orderData }) => {
   try {
-    console.log(orderData)
-    const response = await axios.post(`${API_URL}/${orders}`, orderData);
-    console.log(response)
-    return response.data;
+    console.log("Order Data:", orderData);
+
+    // Check if formData contains a file before uploading
+    if (formData) {
+      await axios.post(`${API_URL}/fileupload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    }
+
+    // Send the order even if no file is uploaded
+    if (orderData && Object.keys(orderData).length > 0) {
+      const response = await axios.post(`${API_URL}/orders`, orderData);
+      console.log("Order Response:", response.data);
+    } else {
+      console.warn("No order data provided.");
+    }
   } catch (error) {
     console.error("Error creating order:", error);
   }
 };
+
 
 export const updateOrderStatus = async (orderId, status) => {
   try {

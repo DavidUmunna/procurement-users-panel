@@ -3,6 +3,7 @@ import React from "react"
 import {useUser} from "./userContext"
 import { getOrders } from "../services/OrderService"
 import Usernav from "./user-navbar"
+import { FaFilePdf, FaFile } from "react-icons/fa"
 
 const RequestHistory=()=>{
     const {user}=useUser()
@@ -81,7 +82,7 @@ const RequestHistory=()=>{
                                 <tbody>
                                   {req.products.map((product, index) => (
                                     <tr key={index} className="border-b">
-                                      <td className="px-4 py-2">{product.Name}</td>
+                                      <td className="px-4 py-2">{product.name}</td>
                                       <td className="px-4 py-2">{product.quantity}</td>
                                       <td className="px-4 py-2">{product.price}</td>
                                     </tr>
@@ -90,8 +91,16 @@ const RequestHistory=()=>{
                               </table>
                             </td>
                             <td className="px-4 py-2 font-medium text-center border-b">{req.urgency}</td>
-                            <td className="px-4 py-2 font-medium text-center border-b">{req.file}</td>
-                            <td className="px-4 py-2 font-medium text-center border-b">{req.remark}</td>
+                            <td>
+                                {req.file ? (
+                                  <a href={`/${req.file}`} target="_blank" rel="noopener noreferrer">
+                                    <FaFilePdf color="red" size={20} title="View File" />
+                                  </a>
+                                ) : (
+                                  <FaFile color="gray" size={20} title="No File Available" />
+                                )}
+                              </td>
+                            <td className="px-4 py-2 font-medium text-center border-b">{req.remarks}</td>
                   
                             {/* Status Column */}
                             <td

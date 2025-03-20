@@ -3,6 +3,7 @@ import { createOrder } from "../services/OrderService";
 import { upload, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "./userContext";
+import { Form } from "react-router-dom";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -42,27 +43,28 @@ const CreateOrder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    //const form=e.target
     const formData = new FormData();
-    formData.append("supplier", supplier);
-    formData.append("orderedBy", orderedBy);
-    formData.append("email", email);
-    formData.append("urgency", urgency);
-    formData.append("remarks", remarks);
-
-    products.forEach((product, index) => {
-      formData.append(`products[${index}][name]`, product.name);
-      formData.append(`products[${index}][quantity]`, product.quantity);
-      formData.append(`products[${index}][price]`, product.price);
-    });
+    //let formdataobject=Object.fromEntries(formData.entries())
+    const payload= {
+        supplier,
+        orderedBy,
+        email,
+        urgency,
+        remarks,
+        products, // Sending products separately as a JSON object
+      }
+    //console.log(formdataobject)
 
     files.forEach((file) => {
       formData.append("files", file);
-    });
-
+    }); 
+    
     try {
-      const orderData = await createOrder(formData);
-      console.log("Order created:", orderData);
+      
+      const fileupload=await createOrder({formData:formData,orderData:payload});
+      console.log("file uploaded:",fileupload);
+  
 
       setSupplier("Halden");
       setProducts([{ name: "", quantity: 1, price: 0 }]);
