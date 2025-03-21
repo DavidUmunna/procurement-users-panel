@@ -3,7 +3,7 @@ import { createOrder } from "../services/OrderService";
 import { upload, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "./userContext";
-import { Form } from "react-router-dom";
+//import { Form } from "react-router-dom";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -43,7 +43,7 @@ const CreateOrder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
+
     //const form=e.target
     const formData = new FormData();
     //let formdataobject=Object.fromEntries(formData.entries())
@@ -66,11 +66,11 @@ const CreateOrder = () => {
       const fileupload=await createOrder({formData:formData,orderData:payload});
       console.log("file uploaded:",fileupload);
   
-=======
+
     
     
 
-    try {
+    
       const orderData = await createOrder({ supplier, orderedBy,email,products, urgency, files, remarks });
   
       console.log("Submitting order data:", orderData);
@@ -80,7 +80,7 @@ const CreateOrder = () => {
 
 
       console.log("Order created:", orderData);
->>>>>>> a3755e24a1a74b676d8c63bd95825c8e59e13758
+
 
       setSupplier("Halden");
       setProducts([{ name: "", quantity: 1, price: 0 }]);
@@ -92,7 +92,7 @@ const CreateOrder = () => {
       console.error("Error creating order:", error);
       alert("Failed to create order. Please try again.");
     }
-  };
+  }
 
   const handleProductChange = (index, field, value) => {
     const updatedProducts = [...products];

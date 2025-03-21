@@ -4,11 +4,21 @@ const API_URL = "http://localhost:5000/api"; //  backend URL
 
 const orders="orders"
 
-export const getOrders = async (email) => {
+export const getOrders = async ({email, filename}) => {
   try {
-    const response = await axios.get(`${API_URL}/${orders}/${email}`);
-    console.log(response)
-    return response.data;
+    if (email){
+      const response = await axios.get(`${API_URL}/${orders}/${email}`);
+      console.log(response)
+      return response.data;
+    }
+
+    if (filename){
+      const response_2=await axios.get(`${API_URL}/fileupload/download/${filename}`)
+      return response_2.data
+    
+    }
+    
+    
   } catch (error) {
     console.error("Error fetching orders:", error);
     return [];
@@ -22,9 +32,9 @@ export const createOrder = async ({ formData, orderData }) => {
 
     // Check if formData contains a file before uploading
     if (formData) {
-      await axios.post(`${API_URL}/fileupload`, formData, {
+        const response_1=await axios.post(`${API_URL}/fileupload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
-      });
+      });console.log("file data:",response_1.data)
     }
 
     // Send the order even if no file is uploaded
@@ -38,6 +48,14 @@ export const createOrder = async ({ formData, orderData }) => {
     console.error("Error creating order:", error);
   }
 };
+export const downloadFile=async (fileName)=>{
+  try{
+    const response_2=await axios.get(`${API_URL}/fileupload/download/${fileName}`)
+    return response_2.data
+  }catch(err){
+    console.error({err})
+  }
+}
 
 
 export const updateOrderStatus = async (orderId, status) => {

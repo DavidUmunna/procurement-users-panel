@@ -9,15 +9,15 @@ const RequestHistory=()=>{
     const {user}=useUser()
     const [Requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [email,setemail]=useState("")
+    //const [email,setemail]=useState("")
     useEffect(()=>{
         
         const fetchUserOrders=async()=>{
             
             if (!user || !user.email) return; 
             try{
-            setemail(user.email)
-            const userrequest=await getOrders(user.email)
+          
+            const userrequest=await getOrders({email:user.email, filename:user.filename})
             console.log("fetched orders",userrequest)
 
             if (Array.isArray(userrequest)){
