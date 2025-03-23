@@ -20,7 +20,7 @@ const buttonVariants = {
 };
 
 const CreateOrder = () => {
-  const { user } = useUser();
+  const { user,setUser} = useUser();
   const [supplier, setSupplier] = useState("Halden");
   const [products, setProducts] = useState([{ name: "", quantity: 1, price: 0 }]);
   const [orderedBy, setOrderedBy] = useState("");
@@ -56,7 +56,7 @@ const CreateOrder = () => {
         products, // Sending products separately as a JSON object
       }
     //console.log(formdataobject)
-
+    formData.append("email", email);
     files.forEach((file) => {
       formData.append("files", file);
     }); 
@@ -64,22 +64,28 @@ const CreateOrder = () => {
     try {
       
       const fileupload=await createOrder({formData:formData,orderData:payload});
-      console.log("file uploaded:",fileupload);
-  
+      if (files.length>0){
+
+        setUser((prev)=>({...prev,filename:fileupload.files.map(file=>file.filename)}))
+        console.log("file uploaded:",fileupload.files.map(file=>
+          file.filename
+        ));
+      }
+      
 
     
     
 
     
-      const orderData = await createOrder({ supplier, orderedBy,email,products, urgency, files, remarks });
+      //const orderData = await createOrder({ supplier, orderedBy,email,products, urgency, files, remarks });
   
-      console.log("Submitting order data:", orderData);
+      //console.log("Submitting order data:", orderData);
   
       setOrderedBy("");
       
 
 
-      console.log("Order created:", orderData);
+      //console.log("Order created:", orderData);
 
 
       setSupplier("Halden");

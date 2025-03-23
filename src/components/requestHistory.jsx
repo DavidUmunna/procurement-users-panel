@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import React from "react"
 import {useUser} from "./userContext"
-import { getOrders } from "../services/OrderService"
-import Usernav from "./user-navbar"
+import { getOrders, downloadFile} from "../services/OrderService"
+
 import { FaFilePdf, FaFile } from "react-icons/fa"
 
 const RequestHistory=()=>{
@@ -11,14 +11,26 @@ const RequestHistory=()=>{
     const [loading, setLoading] = useState(true);
     //const [email,setemail]=useState("")
     useEffect(()=>{
-        
+        console.log("userfilename:",user.filename)
+        //const filename=user.filename
+        //console.log(JSON.stringify(filename[0]))
+        /*filename.forEach(file=>{
+            const query=`?filename=${encodeURIComponent(file  )}`
+            const downloadfiles=async(query)=>{
+              const downoladrequest=await downloadFile(query)
+
+              console.log(downoladrequest)
+            }
+            
+
+        })*/
         const fetchUserOrders=async()=>{
             
             if (!user || !user.email) return; 
             try{
           
-            const userrequest=await getOrders({email:user.email, filename:user.filename})
-            console.log("fetched orders",userrequest)
+            const userrequest=await getOrders({email:user.email})
+            console.log("fetched orders",userrequest.files)
 
             if (Array.isArray(userrequest)){
                 setRequests(userrequest||[])
@@ -71,7 +83,7 @@ const RequestHistory=()=>{
                   
                       {/* Table Body */}
                       <tbody>
-                        {Requests.map((req) => (
+                        {Requests?.map((req) => (
                           <tr key={req._id} className="border-b">
                             {/* Request ID (First Column) */}
                             <td className="px-4 py-2 font-medium text-center border-b">{req.orderNumber}</td>
