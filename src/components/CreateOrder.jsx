@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createOrder } from "../services/OrderService";
-import { upload, FileText } from "lucide-react";
+import {  FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "./userContext";
 //import { Form } from "react-router-dom";
@@ -28,6 +28,7 @@ const CreateOrder = () => {
   const [files, setFiles] = useState([]);
   const [remarks, setRemarks] = useState("");
   const [email, setEmail] = useState("");
+  const [filename,setfilename]=useState("")
 
   useEffect(() => {
     if (user) {
@@ -39,11 +40,14 @@ const CreateOrder = () => {
   const handleFileChange = (event) => {
     const uploadedFiles = event.target.files ? Array.from(event.target.files) : [];
     setFiles(uploadedFiles);
+    if (uploadedFiles.length>0){
+      setfilename(uploadedFiles[0].name)
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(filename)
     //const form=e.target
     const formData = new FormData();
     //let formdataobject=Object.fromEntries(formData.entries())
@@ -51,6 +55,7 @@ const CreateOrder = () => {
         supplier,
         orderedBy,
         email,
+        filename,
         urgency,
         remarks,
         products, // Sending products separately as a JSON object
@@ -66,10 +71,8 @@ const CreateOrder = () => {
       const fileupload=await createOrder({formData:formData,orderData:payload});
       if (files.length>0){
 
-        setUser((prev)=>({...prev,filename:fileupload.files.map(file=>file.filename)}))
-        console.log("file uploaded:",fileupload.files.map(file=>
-          file.filename
-        ));
+        //setUser((prev)=>({...prev,filename:fileupload.files.map(file=>file.filename)}))
+        console.log("file uploaded:",fileupload.file);
       }
       
 
@@ -161,7 +164,7 @@ const CreateOrder = () => {
               <option value="">Select Urgency</option>
               <option className="text-red-500" value="VeryUrgent">Very Urgent</option>
               <option value="Urgent">Urgent</option>
-              <option value="Not Urgent">Not Urgent</option>
+              <option value="NotUrgent">Not Urgent</option>
             </select>
 
             <div className="flex flex-col items-center justify-center w-full">
