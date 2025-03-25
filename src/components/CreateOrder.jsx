@@ -20,7 +20,7 @@ const buttonVariants = {
 };
 
 const CreateOrder = () => {
-  const { user,setUser} = useUser();
+  const { user} = useUser();
   const [supplier, setSupplier] = useState("Halden");
   const [products, setProducts] = useState([{ name: "", quantity: 1, price: 0 }]);
   const [orderedBy, setOrderedBy] = useState("");
