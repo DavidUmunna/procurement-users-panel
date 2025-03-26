@@ -37,15 +37,20 @@ function App() {
   React.useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/check-auth", { withCredentials: true });
+        const token=localStorage.getItem('authToken')
+        console.log(token)
+        const response = await axios.get("http://localhost:5000/api/check-auth",
+          {headers:{Authorization:`Bearer ${token}`},
+        withCredentials: true });
         setisauthenticated(response.data.authenticated);
+        console.log(response.data)
       } catch (error) {
         setisauthenticated(false);
         console.error(error);
       }
     };
     checkAuth();
-  }, []);
+  }, [isauthenticated]);
 
   if (isauthenticated === null) return <div>Loading...</div>;
 

@@ -29,7 +29,9 @@ export default function Sign_in({ setAuth }) {
 
       if (response.data.success) {
         setAuth(true);
-        localStorage.setItem("auth", "true");
+        localStorage.setItem("authToken",response.data.token)
+        //localStorage.setItem("auth", "true");
+        console.log("token from sign in page",response.data.token)
         setUser(response.data.user);
         setUserData(response.data.user);
         navigate("/dashboard");

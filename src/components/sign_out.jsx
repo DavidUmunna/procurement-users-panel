@@ -12,10 +12,10 @@ export default function SignOut({ setAuth }) {
         setAuth(false);
         setUser(null);
         localStorage.removeItem("user");
-        const token = localStorage.getItem('token');
-        localStorage.removeItem("auth");
-        logoutUser(token);
-        localStorage.removeItem("token");
+        localStorage.removeItem('authToken');
+        //localStorage.removeItem("auth");
+        //logoutUser(token);
+        //localStorage.removeItem("token");
         
         setTimeout(() => {
             navigate("/signin");
