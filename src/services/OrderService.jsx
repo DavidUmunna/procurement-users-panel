@@ -8,8 +8,9 @@ export const getOrders = async ({ email }) => {
     const requests = [];
 
     if (email) {
-      requests.push(axios.get(`${API_URL}/${orders}/${email}`));
-      requests.push(axios.get(`${API_URL}/fileupload/${email}`, { responseType: "blob" }));
+      const token=localStorage.getItem("authToken")
+      requests.push(axios.get(`${API_URL}/${orders}/${email}`,{headers:{Authorization:`Bearer ${token}`},withCredentials:true}));
+      requests.push(axios.get(`${API_URL}/fileupload/${email}`, { responseType: "blob" },{headers:{Authorization:`Bearer ${token}`},withCredentials:true}));
     }
 
     const results = await Promise.allSettled(requests);
