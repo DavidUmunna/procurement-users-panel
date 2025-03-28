@@ -73,7 +73,7 @@ const RequestHistory = () => {
           <div className="w-full overflow-x-auto rounded-lg shadow-md min-h-screen bg-gray-100">
             <table className="w-full bg-white border-collapse">
               {/* Table Head */}
-              <thead className="bg-indigo-600 text-white">
+              <thead className="bg-gray-800 text-white">
                 <tr>
                   <th className="px-4 py-2 text-center">Request</th>
                   <th className="px-4 py-2 text-left">Name</th>
@@ -109,16 +109,23 @@ const RequestHistory = () => {
                       </table>
                     </td>
                     <td className="px-4 py-2 font-medium text-center border-b">{req.urgency}</td>
-                    <td className="px-4 py-2 font-medium text-center border-b">
-                      {req.filename ? (
-                        <a
-                          href="#"
-                          onClick={(event) => handleFileDownload(req.filename, event)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <FaFilePdf color="red" size={20} title="View File" />
-                        </a>
+                    <td className="px-4 py-2 flex font-medium text-center border-b">
+                      {req.filenames && req.filenames.length>0 ? (
+                        req.filenames.map((filename,index)=>(
+                          <a
+                            key={index}
+                            href="#"
+                            onClick={(event) => handleFileDownload(filename, event)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            
+                          >
+
+                             <FaFilePdf color="red" size={20}  title={`Download ${filename}`} />
+                          </a>
+                        ))
+                        
+                         
                       ) : (
                         <FaFile color="gray" size={20} title="No File Available" />
                       )}
