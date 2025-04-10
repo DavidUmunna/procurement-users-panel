@@ -20,6 +20,8 @@ const RequestHistory = () => {
 
         if (Array.isArray(userrequest.orders)) {
           setRequests(userrequest.orders || []);
+          localStorage.setItem("Request_length",Requests.length)
+          console.log(Requests)
         } else {
           throw new Error("invalid data format");
         }

@@ -23,7 +23,7 @@ export default function User() {
   const { user } = useUser();
   return (
     <>
-      <div className="min-h-full">
+      <div className="min-h-full w-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
             <>
