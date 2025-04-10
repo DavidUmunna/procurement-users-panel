@@ -55,20 +55,24 @@ function App() {
   if (isauthenticated === null) return <div>Loading...</div>;
 
   return (
-    <UserProvider>
-      {isauthenticated && <User />}
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/signin" element={!isauthenticated ? <PageTransition><SignIn setAuth={setisauthenticated} /></PageTransition> : <Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={isauthenticated ? <PageTransition><Dashboard /></PageTransition> : <Navigate to="/signin" />} />
-          <Route path="/requesthistory" element={isauthenticated ? <PageTransition><Requesthistory /></PageTransition> : <Navigate to="/signin" />} />
-          <Route path="/forgotpassword" element={ <PageTransition><Forgotpassword /></PageTransition> } />
-          <Route path="/user" element={isauthenticated ? <PageTransition><User /></PageTransition> : <Navigate to="/signin" />} />
-          <Route path="/createorder" element={isauthenticated ? <PageTransition><CreateOrder /></PageTransition> : <Navigate to="/signin" />} />
-          <Route path="/signout" element={<PageTransition><SignOut setAuth={setisauthenticated} /></PageTransition>} />
-          <Route path="*" element={<Navigate to={isauthenticated ? "/dashboard" : "/signin"} />} />
-        </Routes>
-      </AnimatePresence>
+    <UserProvider >
+      <div className="min-h-screen bg-gray-100 w-full px-0">
+
+      
+        {isauthenticated && <User />}
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/signin" element={!isauthenticated ? <PageTransition><SignIn setAuth={setisauthenticated} /></PageTransition> : <Navigate to="/dashboard" />} />
+            <Route path="/dashboard" element={isauthenticated ? <PageTransition><Dashboard /></PageTransition> : <Navigate to="/signin" />} />
+            <Route path="/requesthistory" element={isauthenticated ? <PageTransition><Requesthistory /></PageTransition> : <Navigate to="/signin" />} />
+            <Route path="/forgotpassword" element={ <PageTransition><Forgotpassword /></PageTransition> } />
+            <Route path="/user" element={isauthenticated ? <PageTransition><User /></PageTransition> : <Navigate to="/signin" />} />
+            <Route path="/createorder" element={isauthenticated ? <PageTransition><CreateOrder /></PageTransition> : <Navigate to="/signin" />} />
+            <Route path="/signout" element={<PageTransition><SignOut setAuth={setisauthenticated} /></PageTransition>} />
+            <Route path="*" element={<Navigate to={isauthenticated ? "/dashboard" : "/signin"} />} />
+          </Routes>
+        </AnimatePresence>
+      </div>
     </UserProvider>
   );
 }

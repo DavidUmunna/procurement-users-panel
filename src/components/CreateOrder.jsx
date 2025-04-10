@@ -28,7 +28,7 @@ const CreateOrder = () => {
   const [files, setFiles] = useState([]);
   const [remarks, setRemarks] = useState("");
   const [email, setEmail] = useState("");
-  const [filename,setfilename]=useState("")
+  
   const [filenames, setFilenames] = useState([]);
   useEffect(() => {
     if (user) {
