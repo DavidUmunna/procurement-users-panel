@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useUser } from "./userContext";
 import { getOrders, downloadFile } from "../services/OrderService";
-import { FaFilePdf, FaFile } from "react-icons/fa";
+import Searchbar from './searchbar'
+import {FaFilePdf,FaFile} from "react-icons/fa"
+
+
 
 const RequestHistory = () => {
   const { user } = useUser();
@@ -64,6 +67,9 @@ const RequestHistory = () => {
 
   return (
     <div>
+      <div className="flex justify-center">
+        <Searchbar/>
+      </div>
       <div className="max-w-4xl mx-auto p-6 min-h-screen bg-gray-100">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">My Request History</h2>
 
@@ -123,13 +129,13 @@ const RequestHistory = () => {
                             
                           >
 
-                             <FaFilePdf color="red" size={20}  title={`Download ${filename}`} />
+                             <faFilePdf color="red" size={20}  title={`Download ${filename}`} />
                           </a>
                         ))
                         
                          
                       ) : (
-                        <FaFile color="gray" size={20} title="No File Available" />
+                        <faFile color="gray" size={20} title="No File Available" />
                       )}
                     </td>
                     <td className="px-4 py-2 font-medium text-center border-b">

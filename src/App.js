@@ -4,12 +4,13 @@ import React, { useState } from 'react';
 import SignIn from "./components/sign_in";
 import CreateOrder from "./components/CreateOrder";
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
-import { Dashboard } from "./components/dashboard";
+import { Dashboard } from "./components/Dashboard";
 import { AnimatePresence, motion } from "framer-motion";
 import SignOut from "./components/sign_out";
 import Requesthistory from "./components/requestHistory";
 import axios from "axios";
 import Forgotpassword from "./components/forgotpassword"
+import { Searchprovider } from "./components/searchcontext";
 
 
 const pageVariants = {
@@ -40,10 +41,9 @@ function App() {
         const token=localStorage.getItem('authToken')
         console.log(token)
         const response = await axios.get("http://localhost:5000/api/access",
-          {headers:{Authorization:`Bearer ${token}`,{headers:{
+          {headers:{Authorization:`Bearer ${token}`},
             "ngrok-skip-browser-warning": "true",
-           }},
-        withCredentials: true });
+           },{withCredentials: true });
         setisauthenticated(response.data.authenticated);
         console.log(response.data)
       } catch (error) {
@@ -57,25 +57,28 @@ function App() {
   if (isauthenticated === null) return <div>Loading...</div>;
 
   return (
-    <UserProvider >
-      <div className="min-h-screen bg-gray-100 w-full px-0">
+    <Searchprovider>
 
-      
-        {isauthenticated && <User />}
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/signin" element={!isauthenticated ? <PageTransition><SignIn setAuth={setisauthenticated} /></PageTransition> : <Navigate to="/dashboard" />} />
-            <Route path="/dashboard" element={isauthenticated ? <PageTransition><Dashboard /></PageTransition> : <Navigate to="/signin" />} />
-            <Route path="/requesthistory" element={isauthenticated ? <PageTransition><Requesthistory /></PageTransition> : <Navigate to="/signin" />} />
-            <Route path="/forgotpassword" element={ <PageTransition><Forgotpassword /></PageTransition> } />
-            <Route path="/user" element={isauthenticated ? <PageTransition><User /></PageTransition> : <Navigate to="/signin" />} />
-            <Route path="/createorder" element={isauthenticated ? <PageTransition><CreateOrder /></PageTransition> : <Navigate to="/signin" />} />
-            <Route path="/signout" element={<PageTransition><SignOut setAuth={setisauthenticated} /></PageTransition>} />
-            <Route path="*" element={<Navigate to={isauthenticated ? "/dashboard" : "/signin"} />} />
-          </Routes>
-        </AnimatePresence>
-      </div>
-    </UserProvider>
+      <UserProvider >
+        <div className="min-h-screen bg-gray-100 w-full px-0">
+  
+        
+          {isauthenticated && <User />}
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/signin" element={!isauthenticated ? <PageTransition><SignIn setAuth={setisauthenticated} /></PageTransition> : <Navigate to="/dashboard" />} />
+              <Route path="/dashboard" element={isauthenticated ? <PageTransition><Dashboard /></PageTransition> : <Navigate to="/signin" />} />
+              <Route path="/requesthistory" element={isauthenticated ? <PageTransition><Requesthistory /></PageTransition> : <Navigate to="/signin" />} />
+              <Route path="/forgotpassword" element={ <PageTransition><Forgotpassword /></PageTransition> } />
+              <Route path="/user" element={isauthenticated ? <PageTransition><User /></PageTransition> : <Navigate to="/signin" />} />
+              <Route path="/createorder" element={isauthenticated ? <PageTransition><CreateOrder /></PageTransition> : <Navigate to="/signin" />} />
+              <Route path="/signout" element={<PageTransition><SignOut setAuth={setisauthenticated} /></PageTransition>} />
+              <Route path="*" element={<Navigate to={isauthenticated ? "/dashboard" : "/signin"} />} />
+            </Routes>
+          </AnimatePresence>
+        </div>
+      </UserProvider>
+    </Searchprovider>
   );
 }
 

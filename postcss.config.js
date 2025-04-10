@@ -5,4 +5,4 @@ module.exports = {
       'postcss-flexbugs-fixes': {},
       'postcss-preset-env': {},
     },
-  }
+}
