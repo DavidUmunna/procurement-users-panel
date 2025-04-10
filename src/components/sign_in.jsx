@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "./userContext";
-import { Dashboard } from "./dashboard";
+import { Dashboard } from "./Dashboard";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -22,9 +22,13 @@ export default function Sign_in({ setAuth }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/signin",
+        "https://cef7-102-90-101-227.ngrok-free.app/api/signin",
         { username, password },
-        { withCredentials: true }
+        {withCredentials: true },
+        {headers:{
+            "ngrok-skip-browser-warning": "true",
+           }
+        }
       );
 
       if (response.data.success) {
