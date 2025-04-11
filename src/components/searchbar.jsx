@@ -4,7 +4,8 @@ import { Usesearch } from "./searchcontext"
 
 
 const Searchbar=()=>{
-    const [filters,updatefilters]=Usesearch()
+    const {search}=Usesearch()
+    const [filters,updatefilters]=useState("")
 
 
     const handleSearch=(e)=>{
@@ -20,6 +21,7 @@ const Searchbar=()=>{
             alert("please enter a search term")
             return
         }
+        
         
     }
 

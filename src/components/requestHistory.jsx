@@ -129,13 +129,13 @@ const RequestHistory = () => {
                             
                           >
 
-                             <faFilePdf color="red" size={20}  title={`Download ${filename}`} />
+                             <FaFilePdf color="red" size={20}  title={`Download ${filename}`} />
                           </a>
                         ))
                         
                          
                       ) : (
-                        <faFile color="gray" size={20} title="No File Available" />
+                        <FaFile color="gray" size={20} title="No File Available" />
                       )}
                     </td>
                     <td className="px-4 py-2 font-medium text-center border-b">

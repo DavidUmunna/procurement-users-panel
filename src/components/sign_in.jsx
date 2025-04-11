@@ -22,12 +22,10 @@ export default function Sign_in({ setAuth }) {
 
     try {
       const response = await axios.post(
-        "https://cef7-102-90-101-227.ngrok-free.app/api/signin",
+        "http://localhost:5000/api/signin",
         { username, password },
-        {withCredentials: true },
-        {headers:{
-            "ngrok-skip-browser-warning": "true",
-           }
+        {withCredentials: true, 
+         
         }
       );
 
