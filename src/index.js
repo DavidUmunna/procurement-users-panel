@@ -4,15 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-
+import {Searchprovider} from "./components/searchcontext"
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   
-    <BrowserRouter>
-            <App />
-    </BrowserRouter>
+    <Searchprovider>
+        <BrowserRouter>
+                <App />
+        </BrowserRouter>
+    </Searchprovider>
        
 
     

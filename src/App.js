@@ -57,7 +57,7 @@ function App() {
   if (isauthenticated === null) return <div>Loading...</div>;
 
   return (
-    <Searchprovider>
+    
 
       <UserProvider >
         <div className="min-h-screen bg-gray-100 w-full px-0">
@@ -78,7 +78,7 @@ function App() {
           </AnimatePresence>
         </div>
       </UserProvider>
-    </Searchprovider>
+    
   );
 }
 

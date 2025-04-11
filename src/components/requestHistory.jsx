@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useUser } from "./userContext";
 import { getOrders, downloadFile } from "../services/OrderService";
-import Searchbar from './searchbar'
-import {FaFilePdf,FaFile} from "react-icons/fa"
-
-
+import Searchbar from "./searchbar";
+import { FaFilePdf, FaFile } from "react-icons/fa";
+import FilterDisplay from "./Filterdisplay";
+import { Usesearch } from "./searchcontext";
 
 const RequestHistory = () => {
   const { user } = useUser();
+  const { filters } = Usesearch(); // Access filters from context
   const [Requests, setRequests] = useState([]);
+  const [filteredRequests, setFilteredRequests] = useState([]); // For filtered results
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [currentRemark, setCurrentRemark] = useState("");
@@ -23,13 +25,12 @@ const RequestHistory = () => {
 
         if (Array.isArray(userrequest.orders)) {
           setRequests(userrequest.orders || []);
-          localStorage.setItem("Request_length",Requests.length)
-          console.log(Requests)
+          setFilteredRequests(userrequest.orders || []); // Initialize filtered requests
         } else {
-          throw new Error("invalid data format");
+          throw new Error("Invalid data format");
         }
       } catch (err) {
-        console.error("user fetching failed:", err);
+        console.error("User fetching failed:", err);
       } finally {
         setLoading(false);
       }
@@ -38,6 +39,51 @@ const RequestHistory = () => {
     fetchUserOrders();
   }, [user?.email]);
 
+  // Filter requests based on the search term
+  useEffect(() => {
+    let filtered = Requests;
+  
+    // Filter by keyword
+    if (filters.keyword) {
+      filtered = filtered.filter((req) =>
+        req.products.some((product) =>
+          product.name.toLowerCase().includes(filters.keyword.toLowerCase())
+        )
+      );
+    }
+  
+    // Filter by status
+    if (filters.status) {
+      filtered = filtered.filter(
+        (req) => req.status.toLowerCase() === filters.status.toLowerCase()
+      );
+    }
+  
+    // Filter by daterange
+    if (filters.daterange) {
+      filtered = filtered.filter((req) => {
+        const requestDate = req.createdAt.split("T")[0]; // Extract the date part
+  
+        if (filters.daterange.start && filters.daterange.end) {
+          return (
+            requestDate >= filters.daterange.start &&
+            requestDate <= filters.daterange.end
+          );
+        }
+        if (filters.daterange.start && !filters.daterange.end) {
+          return requestDate >= filters.daterange.start;
+        }
+        if (!filters.daterange.start && filters.daterange.end) {
+          return requestDate <= filters.daterange.end;
+        }
+        return true; // If no dates are provided, include all requests
+      });
+    }
+  
+    // Update the filtered requests
+    setFilteredRequests(filtered);
+  }, [filters, Requests]);
+  
   const handleFileDownload = async (fileName, event) => {
     event.preventDefault();
     try {
@@ -67,15 +113,16 @@ const RequestHistory = () => {
 
   return (
     <div>
-      <div className="flex justify-center">
-        <Searchbar/>
+      <div className="flex justify-center space-x-2">
+        <Searchbar />
+        {/*<FilterDisplay />*/}
       </div>
       <div className="max-w-4xl mx-auto p-6 min-h-screen bg-gray-100">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">My Request History</h2>
 
         {loading ? (
           <p className="text-center text-gray-500">Loading requests...</p>
-        ) : Requests.length === 0 ? (
+        ) : filteredRequests.length === 0 ? (
           <p className="text-center text-gray-500">No requests found.</p>
         ) : (
           <div className="w-full overflow-x-auto rounded-lg shadow-md min-h-screen bg-gray-100">
@@ -97,7 +144,7 @@ const RequestHistory = () => {
 
               {/* Table Body */}
               <tbody>
-                {Requests?.map((req) => (
+                {filteredRequests.map((req) => (
                   <tr key={req._id} className="border-b">
                     {/* Request ID (First Column) */}
                     <td className="px-4 py-2 font-medium text-center border-b">{req.orderNumber}</td>
@@ -118,22 +165,18 @@ const RequestHistory = () => {
                     </td>
                     <td className="px-4 py-2 font-medium text-center border-b">{req.urgency}</td>
                     <td className="px-4 py-2 flex font-medium text-center border-b">
-                      {req.filenames && req.filenames.length>0 ? (
-                        req.filenames.map((filename,index)=>(
+                      {req.filenames && req.filenames.length > 0 ? (
+                        req.filenames.map((filename, index) => (
                           <a
                             key={index}
                             href="#"
                             onClick={(event) => handleFileDownload(filename, event)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            
                           >
-
-                             <FaFilePdf color="red" size={20}  title={`Download ${filename}`} />
+                            <FaFilePdf color="red" size={20} title={`Download ${filename}`} />
                           </a>
                         ))
-                        
-                         
                       ) : (
                         <FaFile color="gray" size={20} title="No File Available" />
                       )}

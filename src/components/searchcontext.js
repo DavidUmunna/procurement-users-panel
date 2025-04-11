@@ -9,7 +9,9 @@ export const Searchprovider=({children})=>{
         daterange:{start:null,end:null}
     })
     const updateFilters=(newFilters)=>{
+      
         setfilters((prev)=>({prev,...newFilters}))
+        
     }
     const Resetfilters=()=>{
         setfilters(
