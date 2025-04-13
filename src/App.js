@@ -11,6 +11,8 @@ import Requesthistory from "./components/requestHistory";
 import axios from "axios";
 import Forgotpassword from "./components/forgotpassword"
 import { Searchprovider } from "./components/searchcontext";
+import {ErrorBondary} from "react-error-boundary"
+import Fallback from "./components/errorboundary";
 
 
 const pageVariants = {
@@ -58,6 +60,7 @@ function App() {
 
   return (
     
+    <ErrorBondary  fallback={<Fallback/>} >
 
       <UserProvider >
         <div className="min-h-screen bg-gray-100 w-full px-0">
@@ -79,6 +82,7 @@ function App() {
         </div>
       </UserProvider>
     
+    </ErrorBondary>
   );
 }
 
