@@ -16,6 +16,7 @@ export const Dashboard=()=>{
     const [Approved_req,setAproved_req]=useState(0)
     const [Pending_req,setPending_req]=useState(0)
     const [Rejected_req,setRejected_req]=useState(0)
+    const [request_amount,setrequest_amount]=useState(0)
     //const [loading,setloading]=useState(false)
     useEffect(()=>{
           const getUsers=async ()=>{
@@ -29,6 +30,8 @@ export const Dashboard=()=>{
                     setAproved_req(Approved)
                     setPending_req(orders.reduce((count,item)=>count+(item.status==="Pending"?1:0),0))
                     setRejected_req(orders.reduce((count,item)=>count+(item.status==="Rejected"?1:0),0))
+                    //setrequest_amount(orders)
+                    
                     console.log("number approved",Approved)
                  }else{
                     throw new Error("invalid data format")
@@ -56,7 +59,7 @@ export const Dashboard=()=>{
                 
             <h1 className="text-3xl font-bold text-gray-800">Welcome {user?.name.split(" ")[1]}</h1>
             <p className="text-gray-600 mt-2">Manage your Requests efficiently.</p>
-            <UserDetails user={user} request={request} Approved_req={Approved_req} Pending_req={Pending_req} Rejected_req={Rejected_req} />
+            <UserDetails user={user}  request_amount={request.length} Approved_req={Approved_req} Pending_req={Pending_req} Rejected_req={Rejected_req} />
             
         </div>
     )

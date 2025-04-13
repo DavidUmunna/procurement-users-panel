@@ -40,7 +40,7 @@ function App() {
       try {
         const token=localStorage.getItem('authToken')
         console.log(token)
-        const response = await axios.get("http://localhost:5000/api/access",
+        const response = await axios.get("http://127.0.0.1:5000/api/access",
           {headers:{Authorization:`Bearer ${token}`},
             "ngrok-skip-browser-warning": "true",
            },{withCredentials: true });

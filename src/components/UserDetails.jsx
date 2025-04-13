@@ -3,10 +3,10 @@ import request_img from "./assets/quote-request.png"
 import user_img from "./assets/user.png"
 
 
-const UserDetails = ({ user ,request,Approved_req,Pending_req,Rejected_req}) => {
-  console.log(Array.isArray(request))
-  console.log(request)
-  const request_amount=request.length
+const UserDetails = ({ user ,request_amount,Approved_req,Pending_req,Rejected_req}) => {
+  //console.log(Array.isArray(request))
+  //console.log(request)
+  //const request_amount=request.length
 
   return (
     <div className="flex justify-center  md:mx-auto flex-wrap">
@@ -44,7 +44,7 @@ const UserDetails = ({ user ,request,Approved_req,Pending_req,Rejected_req}) => 
         </div>
         <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-4 px-10 text-center sm:mx-auto mt-10">
 
-         <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center">
             <div className="w-20 h-20 rounded-full flex justify-center items-center  overflow-hidden bg-gray-200">
               {request_amount ? (
                 <img   src={request_img} alt={user.name} className="w-10 h-10 m-4 " />
