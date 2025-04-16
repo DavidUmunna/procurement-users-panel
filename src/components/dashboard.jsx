@@ -24,7 +24,7 @@ export const Dashboard=()=>{
             try{const userReq=await getOrders({email:user.email})
                   console.log("user orders for count:",userReq.orders)
                   if (Array.isArray(userReq.orders||[])){
-                    const orders=userReq.orders
+                    const orders=userReq.orders||[]
                     setRequest(orders)
                     const Approved=orders.reduce((count,item)=>count+(item.status==="Approved"?1:0),0)
                     setAproved_req(Approved)
@@ -57,7 +57,7 @@ export const Dashboard=()=>{
            
            
                 
-            <h1 className="text-3xl font-bold text-gray-800">Welcome {user?.name.split(" ")[1]}</h1>
+            {user?.name.split(" ").length>=1?<h1 className="text-3xl font-bold text-gray-800">Welcome {user?.name.split(" ")[1]}</h1>:{}}
             <p className="text-gray-600 mt-2">Manage your Requests efficiently.</p>
             <UserDetails user={user}  request_amount={request.length} Approved_req={Approved_req} Pending_req={Pending_req} Rejected_req={Rejected_req} />
             

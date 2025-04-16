@@ -11,7 +11,7 @@ import Requesthistory from "./components/requestHistory";
 import axios from "axios";
 import Forgotpassword from "./components/forgotpassword"
 import { Searchprovider } from "./components/searchcontext";
-import {ErrorBondary} from "react-error-boundary"
+import {ErrorBoundary} from "react-error-boundary"
 import Fallback from "./components/errorboundary";
 
 
@@ -60,7 +60,7 @@ function App() {
 
   return (
     
-    <ErrorBondary  fallback={<Fallback/>} >
+    <ErrorBoundary  fallback={<Fallback/>} >
 
       <UserProvider >
         <div className="min-h-screen bg-gray-100 w-full px-0">
@@ -82,7 +82,7 @@ function App() {
         </div>
       </UserProvider>
     
-    </ErrorBondary>
+    </ErrorBoundary>
   );
 }
 
