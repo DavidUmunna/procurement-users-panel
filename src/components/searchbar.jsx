@@ -2,22 +2,22 @@ import React, { useState } from "react";
 import { Usesearch } from "./searchcontext";
 
 const Searchbar = () => {
-  const { updateFilters } = Usesearch(); // Access updateFilters from context
-  const [filters, updatefilters] = useState(""); // For the search input
-  const [filterType, setFilterType] = useState("keyword"); // Default filter type
-  const [daterange, setDaterange] = useState({ start: "", end: "" }); // For daterange input
+  const { updateFilters } = Usesearch();
+  const [filters, updatefilters] = useState("");
+  const [filterType, setFilterType] = useState("keyword");
+  const [daterange, setDaterange] = useState({ start: "", end: "" });
 
   const handleSearch = (e) => {
-    updatefilters(e.target.value); // Update the search input state
+    updatefilters(e.target.value);
   };
 
   const handleFilterTypeChange = (e) => {
-    setFilterType(e.target.value); // Update the selected filter type
+    setFilterType(e.target.value);
   };
 
   const handleDaterangeChange = (e) => {
     const { name, value } = e.target;
-    setDaterange((prev) => ({ ...prev, [name]: value })); // Update start or end date
+    setDaterange((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -27,47 +27,50 @@ const Searchbar = () => {
         alert("Please enter at least one date (start or end)");
         return;
       }
-      updateFilters({ daterange }); // Update the daterange filter
+      updateFilters({ daterange });
     } else {
       if (filters.trim() === "") {
         alert("Please enter a search term");
         return;
       }
-      updateFilters({ [filterType]: filters }); // Dynamically update the selected filter type
+      updateFilters({ [filterType]: filters });
     }
     console.log(`Updated ${filterType} with value:`, filterType === "daterange" ? daterange : filters);
   };
 
   return (
-    <div className="px-20">
-      <div className="flex justify-center shadow-lg border-2 p-2 min-w-max rounded space-x-4">
-        {/* Dropdown for selecting filter type */}
+    <div className="px-4 sm:px-6 lg:px-20 max-w-6xl mx-auto">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-3 shadow-lg border-2 p-4 rounded-lg"
+      >
+        {/* Filter type selector */}
         <select
           value={filterType}
           onChange={handleFilterTypeChange}
-          className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-auto border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="keyword">Keyword</option>
           <option value="status">Status</option>
           <option value="daterange">Date Range</option>
         </select>
 
-        {/* Input fields for search */}
+        {/* Input based on filter type */}
         {filterType === "daterange" ? (
-          <div className="flex space-x-2">
+          <div className="flex flex-col sm:flex-row gap-2 w-full">
             <input
               type="date"
               name="start"
               value={daterange.start}
               onChange={handleDaterangeChange}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               type="date"
               name="end"
               value={daterange.end}
               onChange={handleDaterangeChange}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         ) : (
@@ -76,18 +79,18 @@ const Searchbar = () => {
             placeholder={`Enter ${filterType}`}
             value={filters}
             onChange={handleSearch}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full sm:w-64 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         )}
 
-        {/* Search button */}
+        {/* Search Button */}
         <button
-          className="bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition px-3 py-1"
-          onClick={handleSubmit}
+          type="submit"
+          className="w-full sm:w-auto bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition px-4 py-2"
         >
           Search
         </button>
-      </div>
+      </form>
     </div>
   );
 };
