@@ -109,7 +109,15 @@ export const Dashboard=()=>{
            
            
                 
-            {user?.name.split(" ").length>=1?<h1 className="text-3xl font-bold text-gray-800">Welcome {user?.name.split(" ")[1]}</h1>:{}}
+            {user?.name && user.name.split(" ").length > 1 ? (
+              <h1 className="text-3xl font-bold text-gray-800">
+                Welcome {user.name.split(" ")[1]}
+              </h1>
+            ) : (
+              <h1 className="text-3xl font-bold text-gray-800">
+                Welcome {user?.name}
+              </h1>
+            )}
             <p className="text-gray-600 mt-2">Manage your Requests efficiently.</p>
             <UserDetails user={user}   rejectedOrders={rejectedOrders} request_amount={request_amount} approvedOrders={approvedOrders} pendingOrders={pendingOrders} />
            

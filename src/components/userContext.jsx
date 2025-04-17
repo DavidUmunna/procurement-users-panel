@@ -9,6 +9,17 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(getInitialState);
     useEffect(()=>{
         sessionStorage.setItem("user",JSON.stringify(user))
+        // tab A - when user logs in
+    localStorage.setItem("user", JSON.stringify(user));
+    
+    // tab B - detect changes
+    window.addEventListener("storage", (event) => {
+        if (event.key === "user") {
+        const newUser = JSON.parse(event.newValue);
+        setUser(newUser); // update your context or state
+        }
+    });
+
     },[user])
     return (
         <UserContext.Provider value={{ user, setUser }}>
