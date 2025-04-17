@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:5000/api"; // backend URL
+const API_URL = "/api"; // backend URL
 const orders = "orders";
 
 export const getOrders = async ({ email }) => {

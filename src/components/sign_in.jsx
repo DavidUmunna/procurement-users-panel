@@ -22,7 +22,7 @@ export default function Sign_in({ setAuth }) {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/api/signin",
+        "/api/signin",
         { username, password },
         {withCredentials: true, 
          
@@ -33,7 +33,7 @@ export default function Sign_in({ setAuth }) {
         setAuth(true);
         localStorage.setItem("authToken",response.data.token)
         //localStorage.setItem("auth", "true");
-        console.log("token from sign in page",response.data.token)
+        //console.log("token from sign in page",response.data.token)
         setUser(response.data.user);
         setUserData(response.data.user);
         navigate("/dashboard");

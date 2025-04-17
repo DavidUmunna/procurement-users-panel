@@ -1,40 +1,54 @@
 import UserDetails from "./UserDetails"
-//import User from "./user-navbar"
 import React, { useState } from 'react';
 import { useUser } from "./userContext";
 import { getOrders } from "../services/OrderService";
 import { useEffect } from "react";
-//import  {handleLogin} from "./sign_in"
-import { useLocation } from 'react-router-dom';
+import axios from "axios"
 
 
 
 export const Dashboard=()=>{
     const { user } = useUser();
-    const location=useLocation()
-    const [request,setRequest]=useState("")
-    const [Approved_req,setAproved_req]=useState(0)
-    const [Pending_req,setPending_req]=useState(0)
-    const [Rejected_req,setRejected_req]=useState(0)
-    const [request_amount,setrequest_amount]=useState(0)
-    //const [loading,setloading]=useState(false)
+    const admin_roles=["admin","procurement_officer","human_resources","internal_auditor","global_admin"]
+    const [request,setRequest]=useState()
+    const [orders,setorders]=useState([])
+    const [approvedOrders, setApprovedOrders] = useState([]);
+    const [pendingOrders, setPendingOrders] = useState([]);
+    const [rejectedOrders, setRejectedOrders] = useState([]);
+    const email=user?.email||"no email provided"
+   
     useEffect(()=>{
-          const getUsers=async ()=>{
+       
+        if (admin_roles.includes(user.role)){
+            fetchorder();
+
+        }else{
+            fetchuserOrder(email)
+        }
+    },[])
+    const fetchorder=async ()=>{ 
             if (!user || !user.email) return 
-            try{const userReq=await getOrders({email:user.email})
-                  console.log("user orders for count:",userReq.orders)
-                  if (Array.isArray(userReq.orders||[])){
-                    const orders=userReq.orders
+
+            try{
+                  const token=localStorage.getItem("authToken")
+                  const userReq=await axios.get("/api/orders",{headers:{Authorization:`Bearer ${token}`, 
+                    "ngrok-skip-browser-warning": "true"},
+                    withCredential:true})
+                  console.log("user orders for count:",userReq)
+                  if (Array.isArray(userReq.data||[])){
+                    const orders=userReq.data
+                    console.log("orders",orders)
                     setRequest(orders)
-                    const Approved=orders.reduce((count,item)=>count+(item.status==="Approved"?1:0),0)
-                    setAproved_req(Approved)
-                    setPending_req(orders.reduce((count,item)=>count+(item.status==="Pending"?1:0),0))
-                    setRejected_req(orders.reduce((count,item)=>count+(item.status==="Rejected"?1:0),0))
-                    //setrequest_amount(orders)
                     
-                    console.log("number approved",Approved)
+                    
+                   
+                    setApprovedOrders(orders.filter((order) => order.status === "Approved"));
+                    setPendingOrders(orders.filter((order) => order.status === "Pending"));
+                    setRejectedOrders(orders.filter((order) => order.status === "Rejected"));
+                   
+                    //console.log("number approved",Approved)
                  }else{
-                    throw new Error("invalid data format")
+                    console.error("invalid data format")
                  }
     
     
@@ -44,22 +58,61 @@ export const Dashboard=()=>{
     
             }
           }
-        getUsers();
-    },[])
+          const fetchuserOrder=async (email)=>{
+            if (!user || !user.email) return 
+            
+            try{
+                  const token=localStorage.getItem("authToken")
+                  const userReq=await axios.get(`/api/orders/${email}`,{headers:{Authorization:`Bearer ${token}`, 
+                    "ngrok-skip-browser-warning": "true"},
+                    withCredential:true})
+                  console.log("user orders for count:",userReq)
+                  if (Array.isArray(userReq.data||[])){
+                    const orders=userReq.data
+                    console.log("orders",orders)
+                    setorders(orders)
+                    
+                    
+                    
+                    setApprovedOrders(orders.filter((order) => order.status === "Approved"));
+                    setPendingOrders(orders.filter((order) => order.status === "Pending"));
+                    setRejectedOrders(orders.filter((order) => order.status === "Rejected"));
+                    //console.log("number approved",Approved)
+                 }else{
+                    console.error("invalid data format")
+                 }
+    
+    
+            
+            }catch(err){
+                console.error("error fetching orders",err)
+    
+            }
 
+          }
+
+    
     console.log(user)
+    console.log("user orders",request)
+    console.log(approvedOrders)
+    console.log(pendingOrders)
+    const request_length=(request)=>{
+        return Array.isArray(request) ? request.length : 0;
+    }
+    const request_amount=request_length(request)
     
    
 
     return(
-        <div className=" min-h-screen bg-gray-100 ">
+        <div className=" min-h-screen bg-gray-300 ">
             
            
            
                 
             <h1 className="text-3xl font-bold text-gray-800">Welcome {user?.name.split(" ")[1]}</h1>
             <p className="text-gray-600 mt-2">Manage your Requests efficiently.</p>
-            <UserDetails user={user}  request_amount={request.length} Approved_req={Approved_req} Pending_req={Pending_req} Rejected_req={Rejected_req} />
+            <UserDetails user={user}   rejectedOrders={rejectedOrders} request_amount={request_amount} approvedOrders={approvedOrders} pendingOrders={pendingOrders} />
+           
             
         </div>
     )
