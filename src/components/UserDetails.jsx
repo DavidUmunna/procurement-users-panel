@@ -270,6 +270,8 @@ const UserDetails = ({
               </div>
             </div>
           </div>
+    
+    
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import SignIn from "./components/sign_in";
 import CreateOrder from "./components/CreateOrder";
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
-import { Dashboard } from "./components/Dashboard";
+import { Dashboard } from "./components/dashboard";
 import { AnimatePresence, motion } from "framer-motion";
 import SignOut from "./components/sign_out";
 import Requesthistory from "./components/requestHistory";
@@ -43,7 +43,7 @@ function App() {
       try {
         const token=localStorage.getItem('authToken')
         console.log(token)
-        const response = await axios.get("http://127.0.0.1:5000/api/access",
+        const response = await axios.get("/api/access",
           {headers:{Authorization:`Bearer ${token}`},
             "ngrok-skip-browser-warning": "true",
            },{withCredentials: true });
