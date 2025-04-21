@@ -1,5 +1,5 @@
 import { Disclosure, Menu } from '@headlessui/react';
-import { Bars4Icon, BellIcon, XMarkIcon, UserIcon, ClipboardDocumentListIcon, PlusCircleIcon, UsersIcon } from '@heroicons/react/24/outline';
+import { Bars4Icon, BellIcon, XMarkIcon, UserIcon, ClipboardDocumentListIcon, PlusCircleIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from "react-router-dom";
 import React from 'react';
 import { useUser } from "./userContext";
@@ -11,6 +11,7 @@ const navigation = [
   { name: 'CreateRequest', to: '/createorder', icon: PlusCircleIcon },
   
   { name: 'RequestHistory', to: '/requesthistory', icon: ClipboardDocumentListIcon },
+  { name: 'task assessment', to: '/usertasks', icon: ClipboardDocumentCheckIcon },
 ];
 
 const userNavigation = [
@@ -58,7 +59,8 @@ export default function User() {
                               'rounded-md px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out'
                             )}
                           >
-                            {item.name}
+                            <item.icon className="h-5 w-5" />
+                            
                           </Link>
                         ))}
                       </div>

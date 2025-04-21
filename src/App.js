@@ -13,6 +13,7 @@ import Forgotpassword from "./components/forgotpassword"
 import { Searchprovider } from "./components/searchcontext";
 import {ErrorBoundary} from "react-error-boundary"
 import Fallback from "./components/errorboundary";
+import UserTasks from "./components/Usertask";
 
 
 const pageVariants = {
@@ -74,6 +75,7 @@ function App() {
               <Route path="/requesthistory" element={isauthenticated ? <PageTransition><Requesthistory /></PageTransition> : <Navigate to="/signin" />} />
               <Route path="/forgotpassword" element={ <PageTransition><Forgotpassword /></PageTransition> } />
               <Route path="/user" element={isauthenticated ? <PageTransition><User /></PageTransition> : <Navigate to="/signin" />} />
+              <Route path="/usertasks" element={isauthenticated ? <PageTransition><UserTasks /></PageTransition> : <Navigate to="/signin" />} />
               <Route path="/createorder" element={isauthenticated ? <PageTransition><CreateOrder /></PageTransition> : <Navigate to="/signin" />} />
               <Route path="/signout" element={<PageTransition><SignOut setAuth={setisauthenticated} /></PageTransition>} />
               <Route path="*" element={<Navigate to={isauthenticated ? "/dashboard" : "/signin"} />} />
