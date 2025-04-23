@@ -188,7 +188,7 @@ const UserDetails = ({
           {/* Request Statistics and Details */}
           <div className="lg:col-span-2 space-y-6">
             {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-1  gap-4">
               <motion.div 
                 whileHover={{ y: -5 }}
                 className="bg-white rounded-xl shadow-md p-6 text-center"
