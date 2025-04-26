@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useUser } from "./userContext";
 import { getOrders, downloadFile } from "../services/OrderService";
@@ -7,8 +8,9 @@ import { FaFilePdf, FaFile } from "react-icons/fa";
 import FilterDisplay from "./Filterdisplay";
 import { Usesearch } from "./searchcontext";
 
-const RequestHistory = () => {
-  const { user } = useUser();
+const RequestHistory = ({setAuth}) => {
+  const { user ,setUser} = useUser();
+  const navigate=useNavigate()
   const { filters } = Usesearch(); // Access filters from context
   const [Requests, setRequests] = useState([]);
   const [filteredRequests, setFilteredRequests] = useState([]); // For filtered results
@@ -30,7 +32,15 @@ const RequestHistory = () => {
           throw new Error("Invalid data format");
         }
       } catch (err) {
-        console.error("User fetching failed:", err);
+        if (err.response?.status===401 || err.response?.status===403){
+         
+          navigate("/signout");
+
+          
+        }else{
+          console.error("User fetching failed:", err);
+
+        }
       } finally {
         setLoading(false);
       }

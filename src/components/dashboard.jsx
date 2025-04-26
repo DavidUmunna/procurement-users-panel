@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { useUser } from "./userContext";
 import { getOrders } from "../services/OrderService";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios"
 
 
 
 export const Dashboard=()=>{
     const { user } = useUser();
+    const navigate=useNavigate()
     const admin_roles=["admin","procurement_officer","human_resources","internal_auditor","global_admin"]
     const [request,setRequest]=useState()
     const [orders,setorders]=useState([])
@@ -54,7 +56,15 @@ export const Dashboard=()=>{
     
             
             }catch(err){
+              if (err.response?.status===401 || err.response?.status===403){
+         
+                navigate("/signout");
+      
+                
+              }else{
                 console.error("error fetching orders",err)
+
+              }
     
             }
           }

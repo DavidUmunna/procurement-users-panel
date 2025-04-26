@@ -20,6 +20,7 @@ export const getOrders = async ({ email }) => {
 
     return { orders: orderResponse?.data, file: fileResponse };
   } catch (error) {
+    
     console.error("Error fetching orders:", error);
     return {};
   }
