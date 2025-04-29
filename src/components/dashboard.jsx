@@ -29,7 +29,7 @@ const Dashboard=()=>{
             const token=localStorage.getItem("authToken")
             const userReq=await axios.get(`${API_URL}/orders`,{headers:{Authorization:`Bearer ${token}`, 
               "ngrok-skip-browser-warning": "true"},
-              withCredential:true})
+              withCredentials:true})
               console.log("user orders for count:",userReq)
               if (Array.isArray(userReq.data||[])){
                 //const orders=userReq.data
@@ -71,7 +71,7 @@ const Dashboard=()=>{
               const token=localStorage.getItem("authToken")
               const userReq=await axios.get(`${API_URL}/orders/${email}`,{headers:{Authorization:`Bearer ${token}`, 
                 "ngrok-skip-browser-warning": "true"},
-                withCredential:true})
+                withCredentials:true})
                 //console.log("user orders for count:",userReq)
                 if (Array.isArray(userReq.data||[])){
                   setRequest(userReq.data)
@@ -103,7 +103,7 @@ const Dashboard=()=>{
         }else{
             fetchuserOrder(email)
         }
-          },[])
+          },[user])
 
     
     /*console.log(user)
