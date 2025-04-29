@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../services/signInService";
 import { useUser } from "./userContext";
 import { motion } from "framer-motion";
 

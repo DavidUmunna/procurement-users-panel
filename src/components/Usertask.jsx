@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from './userContext';
-import { FiCheck, FiClock, FiAlertCircle, FiUsers } from 'react-icons/fi';
+import {  FiUsers } from 'react-icons/fi';
 
 const UserTasks = () => {
   const { user } = useUser();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  //const [updatetask,setubdatetask]=useState({taskId,newStatus})
 
   const fetchTasks = async () => {
     try {
+      const API_URL = `${process.env.REACT_APP_API_URL}/api`
+
       const token = localStorage.getItem('authToken');
-      const res = await axios.get(`/api/tasks/${user.userId}`, {
-        headers: { Authorization: `Bearer ${token}` }
+      const res = await axios.get(`${API_URL}/tasks/${user.userId}`, {
+        headers: { Authorization: `Bearer ${token}`,"ngrok-skip-browser-warning":"true" }
       });
       setTasks(res.data.data);
     } catch (err) {
@@ -24,15 +27,18 @@ const UserTasks = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, [user._id]);
+  }, [user.userId]);
 
   const updateTaskStatus = async (taskId, newStatus) => {
     try {
+      const API_URL = `${process.env.REACT_APP_API_URL}/api`
+
       const token = localStorage.getItem('authToken');
       await axios.patch(
-        `/api/tasks/${taskId}`,
+        `${API_URL}/tasks/${taskId}`,
         { status: newStatus },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}`,"ngrok-skip-browser-warning":"true" } },
+        
       );
       fetchTasks();
     } catch (err) {
@@ -46,11 +52,11 @@ const UserTasks = () => {
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">Your Assigned Tasks</h1>
       
-      {tasks.length === 0 ? (
+      {tasks?.length === 0 ? (
         <p className="text-gray-500 text-center py-8">No tasks currently assigned to you</p>
       ) : (
         <div className="space-y-4">
-          {tasks.map(task => (
+          {tasks?.map(task => (
             <div key={task._id} className="bg-white p-4 rounded-lg shadow-md border border-gray-100">
               <div className="flex justify-between items-start mb-3">
                 <div>
@@ -66,9 +72,9 @@ const UserTasks = () => {
                     'bg-yellow-50 text-yellow-700'
                   }`}
                 >
-                  <option value="Pending"><FiClock className="inline mr-1" /> Pending</option>
-                  <option value="In Progress"><FiAlertCircle className="inline mr-1" /> In Progress</option>
-                  <option value="Completed"><FiCheck className="inline mr-1" /> Completed</option>
+                  <option value="Pending"> Pending</option>
+                  <option value="In Progress"> In Progress</option>
+                  <option value="Completed"> Completed</option>
                 </select>
               </div>
 

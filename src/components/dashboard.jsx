@@ -1,53 +1,47 @@
 import UserDetails from "./UserDetails"
 import React, { useState } from 'react';
 import { useUser } from "./userContext";
-import { getOrders } from "../services/OrderService";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 
 
-
-export const Dashboard=()=>{
+const Dashboard=()=>{
     const { user } = useUser();
-    const navigate=useNavigate()
-    const admin_roles=["admin","procurement_officer","human_resources","internal_auditor","global_admin"]
     const [request,setRequest]=useState()
     const [orders,setorders]=useState([])
     const [approvedOrders, setApprovedOrders] = useState([]);
     const [pendingOrders, setPendingOrders] = useState([]);
     const [rejectedOrders, setRejectedOrders] = useState([]);
     const email=user?.email||"no email provided"
-   
+    const navigate=useNavigate()
+    
     useEffect(()=>{
-       
-        if (admin_roles.includes(user.role)){
-            fetchorder();
+      
+        const admin_roles=["admin","procurement_officer","human_resources","internal_auditor","global_admin"]
 
-        }else{
-            fetchuserOrder(email)
-        }
-    },[])
-    const fetchorder=async ()=>{ 
-            if (!user || !user.email) return 
-
-            try{
-                  const token=localStorage.getItem("authToken")
-                  const userReq=await axios.get("/api/orders",{headers:{Authorization:`Bearer ${token}`, 
-                    "ngrok-skip-browser-warning": "true"},
-                    withCredential:true})
-                  console.log("user orders for count:",userReq)
-                  if (Array.isArray(userReq.data||[])){
-                    const orders=userReq.data
-                    console.log("orders",orders)
-                    setRequest(orders)
-                    
-                    
-                   
-                    setApprovedOrders(orders.filter((order) => order.status === "Approved"));
+        const fetchorder=async ()=>{ 
+          if (!user || !user.email) return 
+          
+          try{
+            const API_URL = `${process.env.REACT_APP_API_URL}/api`
+            
+            const token=localStorage.getItem("authToken")
+            const userReq=await axios.get(`${API_URL}/orders`,{headers:{Authorization:`Bearer ${token}`, 
+              "ngrok-skip-browser-warning": "true"},
+              withCredential:true})
+              console.log("user orders for count:",userReq)
+              if (Array.isArray(userReq.data||[])){
+                //const orders=userReq.data
+                setRequest(userReq.data)
+                //console.log("orders",orders)
+                
+                
+                
+                setApprovedOrders(orders.filter((order) => order.status === "Approved"));
                     setPendingOrders(orders.filter((order) => order.status === "Pending"));
                     setRejectedOrders(orders.filter((order) => order.status === "Rejected"));
-                   
+                    
                     //console.log("number approved",Approved)
                  }else{
                     console.error("invalid data format")
@@ -55,15 +49,15 @@ export const Dashboard=()=>{
     
     
             
-            }catch(err){
-              if (err.response?.status===401 || err.response?.status===403){
-         
-                navigate("/signout");
+                }catch(err){
+                  if (err.response?.status===401 || err.response?.status===403){
+                    
+                    navigate("/signout");
       
                 
               }else{
                 console.error("error fetching orders",err)
-
+                
               }
     
             }
@@ -72,40 +66,50 @@ export const Dashboard=()=>{
             if (!user || !user.email) return 
             
             try{
-                  const token=localStorage.getItem("authToken")
-                  const userReq=await axios.get(`/api/orders/${email}`,{headers:{Authorization:`Bearer ${token}`, 
-                    "ngrok-skip-browser-warning": "true"},
-                    withCredential:true})
-                  console.log("user orders for count:",userReq)
-                  if (Array.isArray(userReq.data||[])){
-                    const orders=userReq.data
-                    console.log("orders",orders)
-                    setorders(orders)
-                    
-                    
-                    
-                    setApprovedOrders(orders.filter((order) => order.status === "Approved"));
-                    setPendingOrders(orders.filter((order) => order.status === "Pending"));
-                    setRejectedOrders(orders.filter((order) => order.status === "Rejected"));
-                    //console.log("number approved",Approved)
-                 }else{
-                    console.error("invalid data format")
-                 }
-    
-    
-            
-            }catch(err){
+              const API_URL = `${process.env.REACT_APP_API_URL}/api`
+              
+              const token=localStorage.getItem("authToken")
+              const userReq=await axios.get(`${API_URL}/orders/${email}`,{headers:{Authorization:`Bearer ${token}`, 
+                "ngrok-skip-browser-warning": "true"},
+                withCredential:true})
+                //console.log("user orders for count:",userReq)
+                if (Array.isArray(userReq.data||[])){
+                  setRequest(userReq.data)
+                  const orders=userReq.data
+                  //console.log("orders",orders)
+                  setorders(orders)
+                  
+                  
+                  //console.log(orders)
+                  setApprovedOrders(orders.filter((order) => order.status === "Approved"));
+                  setPendingOrders(orders.filter((order) => order.status === "Pending"));
+                  setRejectedOrders(orders.filter((order) => order.status === "Rejected"));
+                  //console.log("number approved",Approved)
+                }else{
+                  console.error("invalid data format")
+                }
+                
+                
+                
+              }catch(err){
                 console.error("error fetching orders",err)
-    
+                
+              }
+              
             }
+        if (admin_roles.includes(user.role)){
+            fetchorder();
 
-          }
+        }else{
+            fetchuserOrder(email)
+        }
+          },[])
 
     
-    console.log(user)
+    /*console.log(user)
     console.log("user orders",request)
     console.log(approvedOrders)
-    console.log(pendingOrders)
+    console.log(pendingOrders)*/
     const request_length=(request)=>{
         return Array.isArray(request) ? request.length : 0;
     }
@@ -139,3 +143,4 @@ export const Dashboard=()=>{
 
 
 
+export default Dashboard;

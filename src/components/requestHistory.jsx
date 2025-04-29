@@ -5,11 +5,11 @@ import { useUser } from "./userContext";
 import { getOrders, downloadFile } from "../services/OrderService";
 import Searchbar from "./searchbar";
 import { FaFilePdf, FaFile } from "react-icons/fa";
-import FilterDisplay from "./Filterdisplay";
+
 import { Usesearch } from "./searchcontext";
 
-const RequestHistory = ({setAuth}) => {
-  const { user ,setUser} = useUser();
+const RequestHistory = () => {
+  const { user} = useUser();
   const navigate=useNavigate()
   const { filters } = Usesearch(); // Access filters from context
   const [Requests, setRequests] = useState([]);
@@ -47,7 +47,7 @@ const RequestHistory = ({setAuth}) => {
     };
 
     fetchUserOrders();
-  }, [user?.email]);
+  }, [user,navigate]);
 
   // Filter requests based on the search term
   useEffect(() => {
@@ -179,7 +179,7 @@ const RequestHistory = ({setAuth}) => {
                         req.filenames.map((filename, index) => (
                           <a
                             key={index}
-                            href="#"
+                            href="/dummy"
                             onClick={(event) => handleFileDownload(filename, event)}
                             target="_blank"
                             rel="noopener noreferrer"

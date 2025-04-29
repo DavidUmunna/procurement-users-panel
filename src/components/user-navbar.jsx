@@ -1,8 +1,7 @@
 import { Disclosure, Menu } from '@headlessui/react';
-import { Bars4Icon, BellIcon, XMarkIcon, UserIcon, ClipboardDocumentListIcon, PlusCircleIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline';
+import { Bars4Icon, BellIcon, XMarkIcon, ClipboardDocumentListIcon, PlusCircleIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from "react-router-dom";
 import React from 'react';
-import { useUser } from "./userContext";
 import user_img from "./assets/user.png";
 import { motion } from 'framer-motion';
 
@@ -24,7 +23,7 @@ function classNames(...classes) {
 }
 
 export default function User() {
-  const { user } = useUser();
+  
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
@@ -32,7 +31,7 @@ export default function User() {
   return (
     <>
       <div className="min-h-full w-full">
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="bg-gray-800 fixed top-0 left-0 w-full z-50 ">
           {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

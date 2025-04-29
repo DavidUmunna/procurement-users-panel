@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FiChevronDown, FiChevronUp, FiMail, FiPhone, FiCalendar, FiUser } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
+import { FiChevronDown, FiChevronUp, FiMail, FiPhone, FiCalendar } from "react-icons/fi";
+import { motion } from "framer-motion";
 import requestImg from "../components/assets/quote-request.png";
 import userImg from "../components/assets/user.png";
 
@@ -16,22 +16,22 @@ const UserDetails = ({
     pending: false,
     rejected: false
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [stats, setStats] = useState({
+  //const [isLoading, setIsLoading] = useState(false);
+ /*const [stats, setStats] = useState({
     totalRequests: 0,
     approvalRate: 0,
     avgProcessingTime: 0
-  });
+  });*/
 
   useEffect(() => {
     // Calculate statistics when orders change
-    const total = approvedOrders.length + rejectedOrders.length + pendingOrders.length;
-    const rate = total > 0 ? Math.round((approvedOrders.length / total) * 100) : 0;
+    //const total = approvedOrders.length + rejectedOrders.length + pendingOrders.length;
+    //const rate = total > 0 ? Math.round((approvedOrders.length / total) * 100) : 0;
     
    
   }, [approvedOrders, rejectedOrders, pendingOrders]);
 
-  const calculateAvgProcessingTime = () => {
+  /*const calculateAvgProcessingTime = () => {
     if (approvedOrders.length === 0) return 0;
     
     const totalDays = approvedOrders.reduce((sum, order) => {
@@ -42,7 +42,7 @@ const UserDetails = ({
     }, 0);
     
     return Math.round(totalDays / approvedOrders.length);
-  };
+  };*/
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "N/A";
@@ -197,7 +197,7 @@ const UserDetails = ({
                   <img src={requestImg} alt="Requests" className="h-12 w-12" />
                 </div>
                 <h3 className="mt-2 text-lg font-medium text-gray-700">Total Requests</h3>
-                <p className="text-3xl font-bold text-blue-600">{stats.totalRequests}</p>
+                <p className="text-3xl font-bold text-blue-600">{request_amount}</p>
               </motion.div>
               
               {/*<motion.div 

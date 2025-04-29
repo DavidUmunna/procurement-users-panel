@@ -4,13 +4,12 @@ import React, { useState } from 'react';
 import SignIn from "./components/sign_in";
 import CreateOrder from "./components/CreateOrder";
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
-import { Dashboard } from "./components/dashboard";
+import  Dashboard  from "./components/Dashboard";
 import { AnimatePresence, motion } from "framer-motion";
 import SignOut from "./components/sign_out";
 import Requesthistory from "./components/requestHistory";
 import axios from "axios";
 import Forgotpassword from "./components/forgotpassword"
-import { Searchprovider } from "./components/searchcontext";
 import {ErrorBoundary} from "react-error-boundary"
 import Fallback from "./components/errorboundary";
 import UserTasks from "./components/Usertask";
@@ -42,13 +41,13 @@ function App() {
     const checkAuth = async () => {
       try {
         const token=localStorage.getItem('authToken')
-        console.log(token)
+       
         const response = await axios.get("/api/access",
           {headers:{Authorization:`Bearer ${token}`},
             "ngrok-skip-browser-warning": "true",
            },{withCredentials: true });
         setisauthenticated(response.data.authenticated);
-        console.log(response.data)
+        
       } catch (error) {
         setisauthenticated(false);
         console.error(error);
