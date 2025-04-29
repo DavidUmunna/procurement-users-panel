@@ -6,5 +6,6 @@ module.exports= {
     extend: {},
   },
   plugins: [],
-  purge:false
+  purge:false,
+  
 };

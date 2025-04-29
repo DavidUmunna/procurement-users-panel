@@ -23,7 +23,7 @@ const RequestHistory = () => {
       if (!user || !user.email) return;
       try {
         const userrequest = await getOrders({ email: user.email });
-        console.log("fetched orders", userrequest);
+        //console.log("fetched orders", userrequest);
 
         if (Array.isArray(userrequest.orders)) {
           setRequests(userrequest.orders || []);

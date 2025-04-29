@@ -38,14 +38,18 @@ function App() {
   const [isauthenticated, setisauthenticated] = useState(null);
 
   React.useEffect(() => {
+    const handleTabclose=()=>{
+      navigator.sendBeacon(`${process.env.REACT_APP_API_URL}/api/logout`)
+    }
+    window.addEventListener("beforeunload",handleTabclose)
     const checkAuth = async () => {
       try {
         const token=localStorage.getItem('authToken')
-       
-        const response = await axios.get("/api/access",
-          {headers:{Authorization:`Bearer ${token}`},
-            "ngrok-skip-browser-warning": "true",
-           },{withCredentials: true });
+        const API_URL=`${process.env.REACT_APP_API_URL}/api`
+        const response = await axios.get(`${API_URL}/access`,
+          {headers:{Authorization:`Bearer ${token}`,"ngrok-skip-browser-warning": "true"},
+          
+        withCredentials: true });
         setisauthenticated(response.data.authenticated);
         
       } catch (error) {
@@ -54,6 +58,9 @@ function App() {
       }
     };
     checkAuth();
+    return()=>{
+      window.removeEventListener("beforeunload", handleTabclose);
+    }
   }, [isauthenticated]);
 
   if (isauthenticated === null) return <div>Loading...</div>;
